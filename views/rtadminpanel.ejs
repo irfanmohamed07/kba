@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rt Admin Panel</title>
+ <link rel="icon" type="image/x-icon" href="/images/logo.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/rtadminpanel.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>RT Admin Panel</h2>
+      <ul>
+        <li><a href="#" id="pendinggatepass-link">Pending Gatepass Requests</a></li>
+        <li><a href="#" id="completedgatepasses-link">Completed Gatepass Requests</a></li>
+        <li><a href="#" id="changertpassword-link">change Rt password</a></li>
+        <li><a href="#" id="RtStudents-link">Rt Students</a></li>
+      </ul> 
+    </div>
+  
+    <!-- Three-Dot Menu for Mobile -->
+    <div class="three-dot-menu">
+      <i class="fas fa-ellipsis-v"></i>
+      <div class="menu-content">
+        <ul>
+          <li><a href="#" data-section="pendinggatepass-section">Pending Gatepass Requests</a></li>
+          <li><a href="#" data-section="completedgatepasses-section">completed Gatepass Request</a></li>
+          <li><a href="#" data-section="changertpassword-section">Change Rt Password</a></li>
+          <li><a href="#" data-section="RtStudents-section">Rt Students</a></li>
+        </ul>
+      </div>
+    </div>
+     
+
+    <div class="main-content">
+      <!-- Users Section -->
+      <div id="pendinggatepass-section" class="content-section">
+        <div class="heading"><h3>Pending Gatepass Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Degree</th>
+              <th>Block & Room No</th>
+              <th>Time Out</th>
+              <th>Time In</th>
+              <th>Reason</th>
+              <th>Student PhOne Number</th>
+              <th>Parentt PhOne Number</th>
+              <th>Approve</th>
+              <th>Reject</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pendinggatepasses.forEach(pendinggatepasses => { %>
+                <tr>
+                  <td><%= pendinggatepasses.id %></td>
+                  <td><%= pendinggatepasses.name %></td>
+                  <td><%= pendinggatepasses.rrn %></td>
+                  <td><%= pendinggatepasses.degree %></td>
+                  <td><%= pendinggatepasses.block_room %></td>
+                  <td><%= pendinggatepasses.time_out %></td>
+                  <td><%= pendinggatepasses.time_in %></td>
+                  <td><%= pendinggatepasses.reason %></td>
+                  <td><%= pendinggatepasses.student_contact %></td>
+                  <td><%= pendinggatepasses.parent_contact %></td>
+                   
+                  <td>
+                    <form method="post" action="/approvegatepass/<%= pendinggatepasses.id %>">
+                      <button type="submit">Approve</button>
+                    </form>
+                    <td>
+                      <form method="post" action="/rejectgatepass/<%= pendinggatepasses.id %>">
+                        <button type="submit">Reject</button>
+                      </form>
+                    </td>
+                  </td>
+                </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+   
+      <div id="completedgatepasses-section" class="content-section">
+        <div class="heading"><h3>Completed Gatepasses Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>RRN</th>
+                <th>Degree</th>
+                <th>Block & Room No</th>
+                <th>Time Out</th>
+                <th>Time In</th>
+                <th>Reason</th>
+                <th>Student PhOne Number</th>
+                <th>Parentt PhOne Number</th>
+                <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% approvedgatepasses.forEach(approvedgatepasses => { %>
+                <tr>
+                  <td><%= approvedgatepasses.id %></td>
+                  <td><%= approvedgatepasses.name %></td>
+                  <td><%= approvedgatepasses.rrn %></td>
+                  <td><%= approvedgatepasses.degree %></td>
+                  <td><%= approvedgatepasses.block_room %></td>
+                  <td><%= approvedgatepasses.time_out %></td>
+                  <td><%= approvedgatepasses.time_in %></td>
+                  <td><%= approvedgatepasses.reason %></td>
+                  <td><%= approvedgatepasses.student_contact %></td>
+                  <td><%= approvedgatepasses.parent_contact %></td>
+                  <td><%= approvedgatepasses.status %></td>
+                   
+                </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div> 
+
+
+
+
+      <div id="RtStudents-section" class="content-section">
+        <div class="heading"><h3>Rt Students</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>RRN</th>
+                <th>Student Mobile Number</th>
+                <th>Parent Mobile Number</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <% rtstudents.forEach(rtstudent => { %>
+                <tr>
+                  <td><%= rtstudent.name %></td>
+                  <td><%= rtstudent.rrn %></td>
+                  <td><%= rtstudent.student_mob_num %></td>
+                  <td><%= rtstudent.parent_mob_num %></td>
+                   
+                </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+       
+
+       
+      <div id="changertpassword-section" class="content-section">
+        <div class="heading"><h3>Change Rt Password</h3></div> 
+        <form id="changePasswordForm" method="post" action="/changertpassword">
+          <div class="change-password-form-group">
+            <label for="oldPassword">Old Password:</label>
+            <input type="password" name="oldPassword"  id="password4" class="password-input"  required>
+            <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+          </div>
+          <div class="change-password-form-group">
+            <label for="newPassword">New Password:</label>
+            <input type="password" name="newPassword"  id="password5" class="password-input" required>
+            <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+          </div>
+          <div class="change-password-button-container">
+            <button type="submit">Change Password</button>
+          </div>
+        </form>
+         
+      </div>
+
+
+      </div>
+    </div>
+  <script src="/script/rtadminscript.js"></script>
+</body>
+</html>
+
+ 
+           

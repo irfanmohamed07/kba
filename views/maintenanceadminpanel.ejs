@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/maintenanceadminpanel.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Maintenance Admin Panel</h2>
+      <ul>
+        <li><a href="#" id="pendingmedical-link">Pending Medical Requests</a></li>
+        <li><a href="#" id="pendinghousekeeping-link">Pending Housekeeping Request</a></li>
+        <li><a href="#" id="pendingelectricalwork-link">pending Electricalwork Requests</a></li>
+        <li><a href="#" id="pendingcarpentrywork-link">Pending Carpentrywork Requests</a></li>
+        <li><a href="#" id="completedmedical-link">Completed Medical Requests</a></li>
+        <li><a href="#" id="completedhousekeeping-link">Completed Housekeeping Requests</a></li>
+        <li><a href="#" id="completedelectricalwork-link">completed Electricalwork Requests</a></li>
+        <li><a href="#" id="completedcarpentrywork-link">completed carpentrywork Requests</a></li>
+        <li><a href="#" id="changemaintenanceuserpassword-link">change maintenance password</a></li>
+         
+      </ul> 
+    </div>
+  
+    <!-- Three-Dot Menu for Mobile -->
+    <div class="three-dot-menu">
+      <i class="fas fa-ellipsis-v"></i>
+      <div class="menu-content">
+        <ul>
+          <li><a href="#" data-section="pendingmedical-section">Pending Medical Requests</a></li>
+          <li><a href="#" data-section="pendinghousekeeping-section">Pending Housekeeping Request</a></li>
+          <li><a href="#" data-section="pendingelectricalwork-section">pending Electricalwork Requests</a></li>
+          <li><a href="#" data-section="pendingcarpentrywork-section">Pending Carpentrywork Requests</a></li>
+          <li><a href="#" data-section="completedmedical-section">Completed Medical Requests</a></li>
+          <li><a href="#" data-section="completedhousekeeping-section">Completed Housekeeping Requests</a></li>
+          <li><a href="#" data-section="completedelectricalwork-section">completed Electricalwork Requests</a></li>
+        <li><a href="#" data-section="completedcarpentrywork-section">completed carpentrywork Requests</a></li>
+        <li><a href="#" data-section="changemaintenanceuserpassword-section">change maintenance password</a></li>
+        </ul>
+      </div>
+    </div>
+     
+
+    <div class="main-content">
+      <!-- Users Section -->
+      <div id="pendinghousekeeping-section" class="content-section">
+        <div class="heading"><h3>Pending Housekeeping Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Maintenance Done</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pendinghousekeeping_requests.forEach(pendinghousekeeping_request => { %>
+              <tr>
+                <td><%= pendinghousekeeping_request.id %></td>
+                <td><%= pendinghousekeeping_request.name %></td>
+                <td><%= pendinghousekeeping_request.rrn %></td>
+                <td><%= pendinghousekeeping_request.block %></td>
+                <td><%= pendinghousekeeping_request.room_number %></td>
+                <td><%= pendinghousekeeping_request.maintenance_done %></td>
+                <td>
+                  <form method="post" action="/approvehousekeeping/<%= pendinghousekeeping_request.id %>">
+                    <button type="submit">Approve</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+   
+      <div id="completedhousekeeping-section" class="content-section">
+        <div class="heading"><h3>Completed Housekeeping Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% completedhousekeeping_requests.forEach(completedhousekeeping_request => { %>
+              <tr>
+                <td><%= completedhousekeeping_request.id %></td>
+                <td><%= completedhousekeeping_request.name %></td>
+                <td><%= completedhousekeeping_request.rrn %></td>
+                <td><%= completedhousekeeping_request.block %></td>
+                <td><%= completedhousekeeping_request.room_number %></td>
+                <td><%= completedhousekeeping_request.status %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="pendingelectricalwork-section" class="content-section">
+        <div class="heading"><h3>Pending Electricalwork Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Maintenance Done</th>
+              <th>Complaint</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pendingelectrical_work_requests.forEach(pendingelectrical_work_request => { %>
+              <tr>
+                <td><%= pendingelectrical_work_request.id %></td>
+                <td><%= pendingelectrical_work_request.name %></td>
+                <td><%= pendingelectrical_work_request.rrn %></td>
+                <td><%= pendingelectrical_work_request.block %></td>
+                <td><%= pendingelectrical_work_request.room_number %></td>
+                <td><%= pendingelectrical_work_request.maintenance_done %></td>
+                <td><%= pendingelectrical_work_request.complaint %></td>
+                <td>
+                  <form method="post" action="/approveelectricalwork/<%= pendingelectrical_work_request.id %>">
+                    <button type="submit">Approve</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div> 
+
+      
+      <div id="completedelectricalwork-section" class="content-section">
+        <div class="heading"><h3>Pending Electricalwork Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Complaint</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% completedelectrical_work_requests.forEach( completedelectrical_work_request => { %>
+              <tr>
+                <td><%= completedelectrical_work_request.id %></td>
+                <td><%= completedelectrical_work_request.name %></td>
+                <td><%= completedelectrical_work_request.rrn %></td>
+                <td><%= completedelectrical_work_request.block %></td>
+                <td><%= completedelectrical_work_request.room_number %></td>
+                <td><%= completedelectrical_work_request.complaint %></td>
+                <td><%= completedelectrical_work_request.status %></td>
+                 
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+      <div id="pendingcarpentrywork-section" class="content-section">
+        <div class="heading"><h3>Pending Carpentry work Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Maintenance Done</th>
+              <th>Complaint</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pendingcarpentry_requests.forEach(pendingcarpentry_request => { %>
+              <tr>
+                <td><%= pendingcarpentry_request.id %></td>
+                <td><%= pendingcarpentry_request.name %></td>
+                <td><%= pendingcarpentry_request.rrn %></td>
+                <td><%= pendingcarpentry_request.block %></td>
+                <td><%= pendingcarpentry_request.room_number %></td>
+                <td><%= pendingcarpentry_request.maintenance_done %></td>
+                <td><%= pendingcarpentry_request.complaint %></td>
+                <td>
+                  <form method="post" action="/approvecarpentrywork/<%= pendingcarpentry_request.id %>">
+                    <button type="submit">Approve</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div> 
+
+      
+      <div id="completedcarpentrywork-section" class="content-section">
+        <div class="heading"><h3>completed Carpentry work Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Complaint</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% completedcarpentry_requests.forEach( completedcarpentry_request => { %>
+              <tr>
+                <td><%= completedcarpentry_request.id %></td>
+                <td><%= completedcarpentry_request.name %></td>
+                <td><%= completedcarpentry_request.rrn %></td>
+                <td><%= completedcarpentry_request.block %></td>
+                <td><%= completedcarpentry_request.room_number %></td>
+                <td><%= completedcarpentry_request.complaint %></td>
+                <td><%= completedcarpentry_request.status %></td>
+                 
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      
+
+      <div id="pendingmedical-section" class="content-section">
+        <div class="heading"><h3>Pending Medical Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Phone Number</th>
+              <th>Issue</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pendingmedical_requests.forEach(pendingmedical_request => { %>
+              <tr>
+                <td><%= pendingmedical_request.id %></td>
+                <td><%= pendingmedical_request.name %></td>
+                <td><%= pendingmedical_request.rrn %></td>
+                <td><%= pendingmedical_request.block %></td>
+                <td><%= pendingmedical_request.room_number %></td>
+                <td><%= pendingmedical_request.phone_number %></td>
+                <td><%= pendingmedical_request.issue %></td>
+                <td>
+                  <form method="post" action="/approvehousekeeping/<%= pendingmedical_request.id %>">
+                    <button type="submit">Approve</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>  
+
+      
+      <div id="completedmedical-section" class="content-section">
+        <div class="heading"><h3>completed Medical Requests</h3></div> 
+      
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>RRN</th>
+              <th>Block</th>
+              <th>Room No</th>
+              <th>Phone Number</th>
+              <th>Issue</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% completedmedical_requests.forEach( completedmedical_request => { %>
+              <tr>
+                <td><%= completedmedical_request.id %></td>
+                <td><%= completedmedical_request.name %></td>
+                <td><%= completedmedical_request.rrn %></td>
+                <td><%= completedmedical_request.block %></td>
+                <td><%= completedmedical_request.room_number %></td>
+                <td><%= completedmedical_request.phone_number %></td>
+                <td><%= completedmedical_request.complaint %></td>
+                <td><%= completedmedical_request.status %></td>
+                 
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+       
+      <div id="changemaintenanceuserpassword-section" class="content-section">
+        <div class="heading"><h3>Change Maintenance User Password</h3></div> 
+        <form id="changePasswordForm" method="post" action="/changemaintenancepassword">
+          <div class="change-password-form-group">
+            <label for="oldPassword">Old Password:</label>
+            <input type="password" name="oldPassword"  id="password4" class="password-input"  required>
+            <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+          </div>
+          <div class="change-password-form-group">
+            <label for="newPassword">New Password:</label>
+            <input type="password" name="newPassword"  id="password5" class="password-input" required>
+            <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+          </div>
+          <div class="change-password-button-container">
+            <button type="submit">Change Password</button>
+          </div>
+        </form>
+         
+      </div>
+
+
+      </div>
+    </div>
+  <script src="/script/maintenanceadminpanelscript.js"></script>
+</body>
+</html>
+
+ 
+           

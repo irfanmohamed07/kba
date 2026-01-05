@@ -1,0 +1,757 @@
+<%- include('partials/header')%>
+
+    <section class="smart-maintenance-section">
+        <div class="container-custom">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-robot"></i> AI Powered</span>
+                <h2 class="section-title">Smart <span class="gradient-text">Complaint System</span></h2>
+                <p class="section-subtitle">Our AI automatically categorizes your complaint and routes it to the right
+                    department</p>
+            </div>
+
+            <div class="maintenance-grid">
+                <!-- AI Prediction Panel -->
+                <div class="ai-panel">
+                    <div class="ai-header">
+                        <div class="ai-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI Complaint Analyzer</h3>
+                    </div>
+
+                    <div class="ai-input-section">
+                        <label for="complaintText">Describe your problem</label>
+                        <textarea id="complaintText"
+                            placeholder="e.g., Fan not working in my room, making loud noise..." rows="4"></textarea>
+                        <button type="button" id="analyzeBtn" class="analyze-btn">
+                            <i class="fas fa-magic"></i> Analyze Complaint
+                        </button>
+                    </div>
+
+                    <!-- AI Prediction Results -->
+                    <div id="predictionResults" class="prediction-results hidden">
+                        <div class="prediction-header">
+                            <i class="fas fa-check-circle"></i>
+                            <span>AI Analysis Complete</span>
+                        </div>
+
+                        <div class="prediction-card">
+                            <div class="prediction-category">
+                                <span class="label">Predicted Category</span>
+                                <div class="category-badge" id="categoryBadge">
+                                    <i id="categoryIcon" class="fas fa-bolt"></i>
+                                    <span id="categoryName">Electrical</span>
+                                </div>
+                            </div>
+
+                            <div class="confidence-meter">
+                                <span class="label">Confidence Level</span>
+                                <div class="meter-bar">
+                                    <div class="meter-fill" id="confidenceFill"></div>
+                                </div>
+                                <span id="confidenceValue" class="confidence-value">85%</span>
+                            </div>
+
+                            <div class="priority-badge" id="priorityBadge">
+                                <i class="fas fa-flag"></i>
+                                <span id="priorityText">Normal Priority</span>
+                            </div>
+                        </div>
+
+                        <div class="department-info">
+                            <i class="fas fa-building"></i>
+                            <span>Suggested Department: </span>
+                            <strong id="departmentName">Electrical Maintenance Team</strong>
+                        </div>
+
+                        <!-- Probability Distribution -->
+                        <div class="probability-section">
+                            <span class="label">Category Probabilities</span>
+                            <div class="probability-bars" id="probabilityBars">
+                                <!-- Filled by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complaint Form -->
+                <div class="complaint-form-panel">
+                    <div class="form-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Submit Complaint</h3>
+                    </div>
+
+                    <form id="complaintForm" method="post" action="/smart-maintenance">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rrn">RRN/Application Number</label>
+                            <input type="text" id="rrn" name="rrn" placeholder="Enter RRN" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="block">Block</label>
+                                <input type="text" id="block" name="block" placeholder="Block" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="room">Room Number</label>
+                                <input type="text" id="room" name="room" placeholder="Room" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Complaint Description</label>
+                            <textarea id="description" name="description" placeholder="Describe your issue..." rows="3"
+                                required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category (AI Suggested)</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="electrical">⚡ Electrical</option>
+                                <option value="plumbing">🚿 Plumbing</option>
+                                <option value="housekeeping">🧹 Housekeeping</option>
+                                <option value="carpentry">🪚 Carpentry</option>
+                                <option value="medical">🏥 Medical</option>
+                                <option value="other">📋 Other</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" id="aiCategory" name="aiCategory">
+                        <input type="hidden" id="aiConfidence" name="aiConfidence">
+                        <input type="hidden" id="aiPriority" name="aiPriority">
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Submit Complaint
+                        </button>
+
+                        <% if (typeof message !=='undefined' && message) { %>
+                            <p class="success-message">
+                                <%= message %>
+                            </p>
+                            <% } %>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Quick Category Cards -->
+            <div class="quick-categories">
+                <h3>Or select a category directly</h3>
+                <div class="category-cards">
+                    <a href="/electricalwork" class="category-card electrical">
+                        <i class="fas fa-bolt"></i>
+                        <span>Electrical</span>
+                    </a>
+                    <a href="/housekeeping" class="category-card housekeeping">
+                        <i class="fas fa-broom"></i>
+                        <span>Housekeeping</span>
+                    </a>
+                    <a href="/carpentrywork" class="category-card carpentry">
+                        <i class="fas fa-hammer"></i>
+                        <span>Carpentry</span>
+                    </a>
+                    <a href="/medical" class="category-card medical">
+                        <i class="fas fa-first-aid"></i>
+                        <span>Medical</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .smart-maintenance-section {
+            padding: 3rem 2rem 5rem;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .maintenance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* AI Panel Styles */
+        .ai-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
+            padding: 2rem;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .ai-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .ai-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .ai-input-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .ai-input-section textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            resize: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: none;
+            border-radius: 15px;
+            background: white;
+            color: #667eea;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .analyze-btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Prediction Results */
+        .prediction-results {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .prediction-results.hidden {
+            display: none;
+        }
+
+        .prediction-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #43e97b;
+            font-weight: 600;
+        }
+
+        .prediction-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .prediction-category {
+            margin-bottom: 1.5rem;
+        }
+
+        .prediction-category .label,
+        .confidence-meter .label,
+        .probability-section .label {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #667eea;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .confidence-meter {
+            margin-bottom: 1rem;
+        }
+
+        .meter-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .confidence-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .priority-badge.high {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .priority-badge.medium {
+            background: rgba(251, 191, 36, 0.3);
+        }
+
+        .department-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .probability-section {
+            margin-top: 1.5rem;
+        }
+
+        .probability-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .prob-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .prob-label {
+            width: 100px;
+            font-size: 0.85rem;
+            text-transform: capitalize;
+        }
+
+        .prob-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .prob-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .prob-value {
+            width: 50px;
+            text-align: right;
+            font-size: 0.85rem;
+        }
+
+        /* Complaint Form Panel */
+        .complaint-form-panel {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .form-header i {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .form-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .success-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #10b981;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Quick Categories */
+        .quick-categories {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .quick-categories h3 {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-cards {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-card {
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-card i {
+            font-size: 2rem;
+        }
+
+        .category-card.electrical {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .category-card.housekeeping {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .category-card.carpentry {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .category-card.medical {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .maintenance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-cards {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const complaintText = document.getElementById('complaintText');
+            const predictionResults = document.getElementById('predictionResults');
+            const descriptionField = document.getElementById('description');
+            const categorySelect = document.getElementById('category');
+
+            // Sync complaint text with form description
+            complaintText.addEventListener('input', function () {
+                descriptionField.value = this.value;
+            });
+
+            analyzeBtn.addEventListener('click', async function () {
+                const text = complaintText.value.trim();
+
+                if (!text) {
+                    alert('Please describe your problem first');
+                    return;
+                }
+
+                // Show loading state
+                analyzeBtn.classList.add('loading');
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+                try {
+                    const response = await fetch('http://localhost:5000/analyze', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ text: text })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('ML Service not available');
+                    }
+
+                    const data = await response.json();
+
+                    // Show results
+                    displayPrediction(data);
+
+                    // Set form values
+                    categorySelect.value = data.category;
+                    document.getElementById('aiCategory').value = data.category;
+                    document.getElementById('aiConfidence').value = data.confidence;
+                    document.getElementById('aiPriority').value = data.priority;
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    // Fallback - use local prediction
+                    const localPrediction = localPredict(text);
+                    displayPrediction(localPrediction);
+                    categorySelect.value = localPrediction.category;
+                }
+
+                // Reset button
+                analyzeBtn.classList.remove('loading');
+                analyzeBtn.innerHTML = '<i class="fas fa-magic"></i> Analyze Complaint';
+            });
+
+            function displayPrediction(data) {
+                predictionResults.classList.remove('hidden');
+
+                // Update category
+                const categoryName = document.getElementById('categoryName');
+                const categoryIcon = document.getElementById('categoryIcon');
+                categoryName.textContent = data.category;
+
+                // Set icon based on category
+                const icons = {
+                    'electrical': 'fa-bolt',
+                    'plumbing': 'fa-faucet',
+                    'housekeeping': 'fa-broom',
+                    'carpentry': 'fa-hammer',
+                    'medical': 'fa-first-aid',
+                    'other': 'fa-clipboard'
+                };
+                categoryIcon.className = 'fas ' + (icons[data.category] || 'fa-clipboard');
+
+                // Update confidence
+                const confidenceFill = document.getElementById('confidenceFill');
+                const confidenceValue = document.getElementById('confidenceValue');
+                confidenceFill.style.width = data.confidence + '%';
+                confidenceValue.textContent = data.confidence + '%';
+
+                // Update priority
+                const priorityBadge = document.getElementById('priorityBadge');
+                const priorityText = document.getElementById('priorityText');
+                priorityBadge.className = 'priority-badge ' + data.priority;
+                priorityText.textContent = data.priority.charAt(0).toUpperCase() + data.priority.slice(1) + ' Priority';
+
+                // Update department
+                document.getElementById('departmentName').textContent = data.suggested_department || getDepartment(data.category);
+
+                // Update probability bars
+                const probBars = document.getElementById('probabilityBars');
+                probBars.innerHTML = '';
+
+                if (data.probabilities) {
+                    for (const [cat, prob] of Object.entries(data.probabilities)) {
+                        probBars.innerHTML += `
+                    <div class="prob-item">
+                        <span class="prob-label">${cat}</span>
+                        <div class="prob-bar">
+                            <div class="prob-fill" style="width: ${prob}%"></div>
+                        </div>
+                        <span class="prob-value">${prob}%</span>
+                    </div>
+                `;
+                    }
+                }
+            }
+
+            function getDepartment(category) {
+                const departments = {
+                    'electrical': 'Electrical Maintenance Team',
+                    'plumbing': 'Plumbing & Water Supply Team',
+                    'housekeeping': 'Housekeeping Staff',
+                    'carpentry': 'Carpentry & Furniture Team',
+                    'medical': 'Medical/Health Center',
+                    'other': 'General Administration'
+                };
+                return departments[category] || 'General Administration';
+            }
+
+            // Local prediction fallback (simple keyword matching)
+            function localPredict(text) {
+                text = text.toLowerCase();
+
+                const keywords = {
+                    electrical: ['fan', 'light', 'switch', 'power', 'electricity', 'ac', 'bulb', 'socket', 'wire'],
+                    plumbing: ['water', 'tap', 'pipe', 'drain', 'toilet', 'leak', 'flush', 'geyser', 'bathroom'],
+                    housekeeping: ['clean', 'dirty', 'dust', 'garbage', 'sweep', 'mop', 'pest', 'cockroach', 'bed sheet'],
+                    carpentry: ['door', 'window', 'furniture', 'table', 'chair', 'lock', 'cupboard', 'shelf', 'bed'],
+                    medical: ['sick', 'fever', 'medicine', 'doctor', 'health', 'pain', 'injury', 'emergency']
+                };
+
+                let maxScore = 0;
+                let predicted = 'other';
+
+                for (const [category, words] of Object.entries(keywords)) {
+                    let score = 0;
+                    for (const word of words) {
+                        if (text.includes(word)) score++;
+                    }
+                    if (score > maxScore) {
+                        maxScore = score;
+                        predicted = category;
+                    }
+                }
+
+                const confidence = maxScore > 0 ? Math.min(50 + maxScore * 15, 95) : 30;
+
+                return {
+                    category: predicted,
+                    confidence: confidence,
+                    priority: text.includes('urgent') || text.includes('emergency') ? 'high' : 'normal',
+                    probabilities: {
+                        electrical: predicted === 'electrical' ? confidence : Math.floor(Math.random() * 20),
+                        plumbing: predicted === 'plumbing' ? confidence : Math.floor(Math.random() * 20),
+                        housekeeping: predicted === 'housekeeping' ? confidence : Math.floor(Math.random() * 20),
+                        carpentry: predicted === 'carpentry' ? confidence : Math.floor(Math.random() * 20),
+                        medical: predicted === 'medical' ? confidence : Math.floor(Math.random() * 20),
+                        other: predicted === 'other' ? confidence : Math.floor(Math.random() * 20)
+                    }
+                };
+            }
+        });
+    </script>
+
+    <%- include('partials/footer')%>

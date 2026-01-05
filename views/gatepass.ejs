@@ -1,0 +1,103 @@
+<%- include('partials/header') %>
+
+    <section>
+        <div class="container">
+            <div class="box">
+
+                <div class="gatepass-logo">
+                    <img src="/images/gatepass-logo.jpg" alt="Hostel Logo">
+                </div>
+
+                <form id="gatepassForm" method="post" action="/gatepass">
+
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                    <label for="rrn">RRN/Application Number</label>
+                    <input type="text" id="rrn" name="rrn" placeholder="Enter RRN or application number" required>
+
+                    <label for="degree">Department/Degree/Year</label>
+                    <input type="text" id="degree" name="degree" placeholder="Enter department, degree, and year"
+                        required>
+
+                    <label for="block_room">Block and Room Number</label>
+                    <input type="text" id="block_room" name="block_room" placeholder="Enter block and room number"
+                        required>
+
+                    <label for="time_out">Date and Time Out</label>
+                    <input type="datetime-local" id="time_out" name="time_out" required>
+
+                    <label for="time_in">Date and Time In</label>
+                    <input type="datetime-local" id="time_in" name="time_in" required>
+
+                    <label for="reason">Reason for Gate Pass</label>
+                    <input type="text" id="reason" name="reason" placeholder="Enter the reason for the gate pass"
+                        required>
+
+                    <label for="student_contact">Student Contact</label>
+                    <input type="tel" id="student_contact" name="student_contact" pattern="\d{10}" maxlength="10"
+                        minlength="10" placeholder="Enter your contact number" required>
+
+                    <label for="parent_contact">Parent Contact</label>
+                    <input type="tel" id="parent_contact" name="parent_contact" pattern="\d{10}" maxlength="10"
+                        minlength="10" placeholder="Enter your parent's contact number" required>
+
+
+                    <label for="rt_name">RT Name</label>
+                    <select id="rt_name" name="rt_name" maxlength="5" minlength="50" required>
+                        <option value="" disabled selected>Select RT Name</option>
+                        <% rtNames.forEach(rt=> { %>
+                            <option value="<%= rt.name %>">
+                                <%= rt.name %>
+                            </option>
+                            <% }); %>
+                    </select>
+
+
+                    <button type="submit" class="housekeeping-submit-btn">Submit Gate Pass Request</button>
+                    <p style="color: green; text-align: center;">
+                        <%= locals["message"] %>
+                    </p>
+
+                </form>
+
+                <!-- Display uploaded PDF if available -->
+                <% if (typeof pdfUrl !=='undefined' && pdfUrl) { %>
+                    <div class="pdf-preview-section"
+                        style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                        <h3 style="color: white; text-align: center; margin-bottom: 15px;">
+                            <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>Your Gate Pass PDF
+                        </h3>
+                        <div style="background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                            <iframe src="<%= pdfUrl %>" width="100%" height="400"
+                                style="border: none; border-radius: 8px;"></iframe>
+                        </div>
+                        <div style="text-align: center;">
+                            <a href="<%= pdfUrl %>" target="_blank" class="cta-button primary"
+                                style="display: inline-block; padding: 12px 25px; background: white; color: #667eea; text-decoration: none; border-radius: 25px; font-weight: bold; margin-right: 10px;">
+                                <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i>View Full PDF
+                            </a>
+                            <a href="<%= pdfUrl %>" download class="cta-button secondary"
+                                style="display: inline-block; padding: 12px 25px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; border: 2px solid white;">
+                                <i class="fas fa-download" style="margin-right: 8px;"></i>Download PDF
+                            </a>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <div id="confirmation-message" style="margin-top: 20px;"></div>
+
+
+                        <div id="error-message" style="color: red; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let message = '';
+  <% if (typeof message !== 'undefined') { %>
+            alert('<%= message %>');
+    <% } %>
+    </script>
+
+    <%- include('partials/footer') %>

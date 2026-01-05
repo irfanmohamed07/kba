@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBA Men's Hostel - Premium Student Living</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="google-site-verification" content="31FXDlAT8bXUaixXA8-nqQPzr8X5oA5LeeNSMw0of_s" />
+    <meta name="description"
+        content="KBA Men's Hostel - Premium student accommodation at BSA Crescent Institute with modern amenities, 24/7 security, and a supportive community.">
+</head>
+
+<body>
+    <!-- Enhanced Modern Header -->
+    <header class="modern-header">
+        <div class="header-container">
+            <!-- Logo Section -->
+            <a href="/" class="logo-container">
+                <div class="logo-wrapper">
+                    <img src="/images/logo.jpg" alt="KBA Men's Hostel Logo">
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">KBA Hostel</span>
+                    <span class="logo-subtitle">Premium Living</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <a href="/" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/gatepass" class="nav-link">
+                    <i class="fas fa-id-card"></i>
+                    <span>Gate Pass</span>
+                </a>
+                <a href="/maintenance" class="nav-link">
+                    <i class="fas fa-tools"></i>
+                    <span>Maintenance</span>
+                </a>
+                <a href="/medical" class="nav-link">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Medical</span>
+                </a>
+                <a href="/aboutus" class="nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Us</span>
+                </a>
+            </nav>
+
+            <!-- User Profile / Auth Section -->
+            <div class="header-actions">
+                <% if (user) { %>
+                    <div class="user-profile" onclick="toggleDropdown()">
+                        <div class="user-avatar">
+                            <span>
+                                <%= user.name.charAt(0).toUpperCase() %>
+                            </span>
+                            <div class="status-indicator"></div>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                <%= user.name %>
+                            </span>
+                            <span class="user-role">Student</span>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+
+                        <!-- Dropdown Menu -->
+                        <div class="user-dropdown" id="dropdown-menu">
+                            <div class="dropdown-header">
+                                <div class="dropdown-avatar">
+                                    <span>
+                                        <%= user.name.charAt(0).toUpperCase() %>
+                                    </span>
+                                </div>
+                                <div class="dropdown-user-info">
+                                    <p class="dropdown-name">
+                                        <%= user.name %>
+                                    </p>
+                                    <p class="dropdown-email">Student Account</p>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-links">
+                                <a href="/" class="dropdown-link">
+                                    <i class="fas fa-home"></i>
+                                    <span>Home</span>
+                                </a>
+                                <a href="/gatepass" class="dropdown-link">
+                                    <i class="fas fa-id-card"></i>
+                                    <span>Gate Pass</span>
+                                </a>
+                                <a href="/maintenance" class="dropdown-link">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Maintenance</span>
+                                </a>
+                                <a href="/medical" class="dropdown-link">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>Medical</span>
+                                </a>
+                                <a href="/aboutus" class="dropdown-link">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>About Us</span>
+                                </a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="/logout" class="dropdown-link logout-link">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Log Out</span>
+                            </a>
+                        </div>
+                    </div>
+                    <% } else { %>
+                        <a href="/login" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <% } %>
+
+                            <!-- Mobile Menu Toggle -->
+                            <button class="mobile-menu-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                            </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobile-nav">
+            <div class="mobile-nav-content">
+                <a href="/" class="mobile-nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/gatepass" class="mobile-nav-link">
+                    <i class="fas fa-id-card"></i>
+                    <span>Gate Pass</span>
+                </a>
+                <a href="/maintenance" class="mobile-nav-link">
+                    <i class="fas fa-tools"></i>
+                    <span>Maintenance</span>
+                </a>
+                <a href="/medical" class="mobile-nav-link">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Medical</span>
+                </a>
+                <a href="/aboutus" class="mobile-nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Us</span>
+                </a>
+            </div>
+        </div>
+    </header>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Scanner</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4"
+  >
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">QR Code Scanner</h2>
+    <p class="text-gray-600 text-center">
+      Point your camera at a QR code to scan it.
+    </p>
+
+    <button
+      onclick="startScanner()"
+      class="mt-4 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
+    >
+      Start Scanning
+    </button>
+
+    <div
+      id="scanner-container"
+      class="mt-6 w-72 h-48 border-2 border-blue-500 rounded-lg overflow-hidden shadow-lg hidden"
+    >
+      <video id="videoElement" class="w-full h-full object-cover"></video>
+    </div>
+
+    <form
+      action="/search"
+      method="POST"
+      class="mt-6 flex flex-col items-center gap-2"
+    >
+      <label for="qrInput" class="text-gray-700 font-medium"
+        >Gate Pass ID:</label
+      >
+      <input
+        type="number"
+        id="qrInput"
+        name="gatePassId"
+        placeholder="Enter QR Code"
+        required
+        class="w-64 px-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+      />
+      <button
+        type="submit"
+        class="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
+      >
+        Search
+      </button>
+    </form>
+
+    <% if (results && Array.isArray(results)) { %>
+    <div class="overflow-x-auto mt-8 w-full max-w-5xl">
+      <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="py-2 px-4">ID</th>
+            <th class="py-2 px-4">Name</th>
+            <th class="py-2 px-4">RRN</th>
+            <th class="py-2 px-4">Reason</th>
+            <th class="py-2 px-4">Rt Name</th>
+            <th class="py-2 px-4">Block & Room No</th>
+            <th class="py-2 px-4">Time In</th>
+            <th class="py-2 px-4">Time Out</th>
+            <th class="py-2 px-4">Departed</th>
+            <th class="py-2 px-4">Reached</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach((result) => { %>
+          <tr class="border-b">
+            <td class="py-2 px-4"><%= result.id %></td>
+            <td class="py-2 px-4"><%= result.name %></td>
+            <td class="py-2 px-4"><%= result.rrn %></td>
+            <td class="py-2 px-4"><%= result.reason %></td>
+            <td class="py-2 px-4"><%= result.rt_name %></td>
+            <td class="py-2 px-4"><%= result.block_room %></td>
+            <td class="py-2 px-4"><%= result.time_in %></td>
+            <td class="py-2 px-4"><%= result.time_out %></td>
+            <td class="py-2 px-4">
+              <form method="post" action="/update-status">
+                <input
+                  type="hidden"
+                  name="gatePassId"
+                  value="<%= result.id %>"
+                />
+                <input type="hidden" name="status" value="Departed" />
+                <button
+                  type="submit"
+                  class="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600"
+                >
+                  Departed
+                </button>
+              </form>
+            </td>
+            <td class="py-2 px-4">
+              <form method="post" action="/update-status">
+                <input
+                  type="hidden"
+                  name="gatePassId"
+                  value="<%= result.id %>"
+                />
+                <input type="hidden" name="status" value="Reached" />
+                <button
+                  type="submit"
+                  class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600"
+                >
+                  Reached
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <% } else if (results && typeof results === 'string') { %>
+    <p class="mt-4 text-red-500 font-medium"><%= results %></p>
+    <% } %>
+
+    <script src="/script/watchman.js"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<%- include('./partials/header') %>
+
+    <section>
+        <div class="container">
+            <div class="box">
+
+                <!-- Logo at the top center -->
+                <div class="electricalForm-logo">
+                    <!-- <img src="/images/housekeeping-logo.jpg" alt="Carpentry Logo"> -->
+                    <h2 style="text-align: center;">Electrical Form</h2>
+                </div>
+
+                <form id="electricalForm" method="post" action="/electrical">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                    <label for="rrn">RRN/Application Number</label>
+                    <input type="text" id="rrn" name="rrn" placeholder="Enter RRN or application number" required>
+
+                    <label for="block">Block</label>
+                    <input type="text" id="block" name="block" placeholder="Enter block" required>
+
+                    <label for="room_number">Room Number</label>
+                    <input type="text" id="room_number" name="room_number" placeholder="Enter room number" required>
+
+                    <label for="complaint">Complaint Details</label>
+                    <textarea id="complaint" name="complaint" rows="4" placeholder="Describe the electrical issue"
+                        required><%= locals.prefilledComplaint || '' %></textarea>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="housekeeping-submit-btn">Submit Electrical Work Request</button>
+
+                    <p style="color: green; text-align: center;">
+                        <%= locals["message"] %>
+                    </p>
+                </form>
+
+
+            </div>
+        </div>
+    </section>
+
+    <%- include('./partials/footer') %>

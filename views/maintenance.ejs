@@ -1,0 +1,341 @@
+<%- include('partials/header')%>
+
+    <section class="services">
+        <div class="container-custom">
+            <div class="section-header" style="margin-bottom: 2rem;">
+                <span class="section-badge"><i class="fas fa-robot"></i> AI Powered</span>
+                <h2 class="section-title">Book Services</h2>
+            </div>
+
+            <!-- AI Classification Box -->
+            <div class="ai-box">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3>AI Complaint Classifier</h3>
+                        <p>Describe your issue and let AI route it to the right team</p>
+                    </div>
+                </div>
+
+                <div class="ai-input-row">
+                    <input type="text" id="quickComplaint" placeholder="e.g., Fan not working, Water leaking..." />
+                    <button type="button" id="classifyBtn">
+                        <i class="fas fa-magic"></i> Classify
+                    </button>
+                </div>
+
+                <div id="aiResult" class="ai-result" style="display: none;">
+                    <div class="result-row">
+                        <div class="result-info">
+                            <span class="label">Detected:</span>
+                            <span class="category" id="resultCategory">Electrical</span>
+                            <span class="confidence" id="confidenceText">95%</span>
+                        </div>
+                        <a href="/electricalwork" id="goToServiceBtn" class="result-btn">
+                            Go to Service <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- Auto-Filled Quick Form -->
+                    <div class="quick-form-container"
+                        style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                        <form action="/quick-complaint" method="POST" class="quick-form">
+                            <input type="hidden" name="category" id="formCategory">
+                            <input type="hidden" name="description" id="formDescription">
+
+                            <div class="form-grid">
+                                <input type="text" name="name" placeholder="Your Name" required>
+                                <input type="text" name="rrn" placeholder="RRN" required>
+                                <input type="text" name="block" placeholder="Block" required>
+                                <input type="text" name="room" placeholder="Room No" required>
+                            </div>
+
+                            <button type="submit" class="submit-btn-full">
+                                Submit Complaint <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <h3 style="text-align: center; color: #888; margin: 2.5rem 0 1.5rem; font-weight: 500; font-size: 0.95rem;">
+                Or select category directly</h3>
+
+            <div class="box-container">
+                <div class="box">
+                    <img src="images/housekeeping.jpg" alt="Housekeeping">
+                    <h3 class="button"><a href="/housekeeping">Housekeeping</a></h3>
+                </div>
+                <div class="box">
+                    <img src="images/electricalwork.jpg" alt="Electrical">
+                    <h3 class="button"><a href="/electricalwork">Electrical Works</a></h3>
+                </div>
+                <div class="box">
+                    <img src="images/carpentry.jpg" alt="Carpentry">
+                    <h3 class="button"><a href="/carpentrywork">Carpentry Works</a></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .ai-box {
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .ai-icon {
+            width: 48px;
+            height: 48px;
+            background: #000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .ai-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 0.125rem;
+        }
+
+        .ai-header p {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+
+        .ai-input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .ai-input-row input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            color: #000;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .ai-input-row input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .ai-input-row button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .ai-input-row button:hover {
+            background: #222;
+        }
+
+        .ai-result {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .result-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .result-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .result-info .label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .result-info .category {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #000;
+            text-transform: capitalize;
+        }
+
+        .result-info .confidence {
+            font-size: 0.8rem;
+            color: #16a34a;
+            background: #f0fdf4;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .result-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: #000;
+            color: white;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .result-btn:hover {
+            background: #222;
+        }
+
+        @media (max-width: 600px) {
+            .ai-input-row {
+                flex-direction: column;
+            }
+
+            .result-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .result-btn {
+                margin-top: 0.75rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .submit-btn-full {
+            width: 100%;
+            padding: 0.875rem;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn-full:hover {
+            background: #222;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const classifyBtn = document.getElementById('classifyBtn');
+            const quickComplaint = document.getElementById('quickComplaint');
+            const aiResult = document.getElementById('aiResult');
+
+            quickComplaint.addEventListener('keypress', e => { if (e.key === 'Enter') classifyBtn.click(); });
+
+            classifyBtn.addEventListener('click', async function () {
+                const text = quickComplaint.value.trim();
+                if (!text) return quickComplaint.focus();
+
+                classifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+                try {
+                    const res = await fetch('http://localhost:5000/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text })
+                    });
+                    showResult(res.ok ? await res.json() : localPredict(text), text);
+                } catch {
+                    showResult(localPredict(text), text);
+                }
+
+                classifyBtn.innerHTML = '<i class="fas fa-magic"></i> Classify';
+            });
+
+            function showResult(data, originalText) {
+                const cat = data.category || data.predicted_category;
+                document.getElementById('resultCategory').textContent = cat;
+                document.getElementById('confidenceText').textContent = (data.confidence || 75) + '%';
+                const baseUrl = {
+                    electrical: '/electricalwork', plumbing: '/housekeeping',
+                    housekeeping: '/housekeeping', carpentry: '/carpentrywork',
+                    medical: '/medical', other: '/smart-maintenance'
+                }[cat] || '/smart-maintenance';
+
+                document.getElementById('goToServiceBtn').href = `${baseUrl}?complaint=${encodeURIComponent(originalText)}`;
+
+                // Auto-fill hidden form fields
+                document.getElementById('formCategory').value = cat;
+                document.getElementById('formDescription').value = originalText;
+
+                aiResult.style.display = 'block';
+            }
+
+            function localPredict(text) {
+                text = text.toLowerCase();
+                const kw = {
+                    electrical: ['fan', 'light', 'switch', 'power', 'ac', 'bulb'],
+                    plumbing: ['water', 'tap', 'pipe', 'drain', 'toilet', 'leak'],
+                    housekeeping: ['clean', 'dirty', 'dust', 'garbage', 'sweep'],
+                    carpentry: ['door', 'window', 'table', 'chair', 'lock'],
+                    medical: ['sick', 'fever', 'medicine', 'doctor', 'pain']
+                };
+                let max = 0, pred = 'other';
+                for (const [c, w] of Object.entries(kw)) {
+                    const s = w.filter(x => text.includes(x)).length;
+                    if (s > max) { max = s; pred = c; }
+                }
+                return { category: pred, confidence: max > 0 ? Math.min(50 + max * 20, 95) : 40 };
+            }
+        });
+    </script>
+
+    <%- include('partials/footer')%>
