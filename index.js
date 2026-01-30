@@ -30,9 +30,10 @@ import {
 import watchmanRoute from "./Routes/watchmanRoute.js";
 import watchmanloginRoute from "./Routes/watchmanloginRoute.js";
 import smartMaintenanceRoute from "./Routes/smartMaintenanceRoute.js";
+import chatbotRoute from "./Routes/chatbotRoute.js";
 
 const app = express();
-const port = 3000;
+const port = 8000;
 
 app.use(
   session({
@@ -72,6 +73,7 @@ app.use("/", checkAuthenticated, carpentryworkRoute);
 app.use("/", checkAuthenticated, medicalRoute);
 app.use("/", checkAuthenticated, aboutusRoute);
 app.use("/", checkAuthenticated, smartMaintenanceRoute); // AI-powered maintenance
+app.use("/", chatbotRoute); // Chatbot API
 
 app.use((req, res, next) => {
   res.render("404", { user: req.session.user });

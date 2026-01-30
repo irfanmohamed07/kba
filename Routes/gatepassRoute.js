@@ -24,13 +24,55 @@ if (!fs.existsSync(uploadsDir)) {
 
 router.get("/gatepass", async (req, res) => {
   try {
-    const result = await pool.query("SELECT name FROM rt");
-    const rtNames = result.rows;
-    res.render("gatepass", { rtNames, user: req.session.user });
-  } catch (error) {
+    const rtResult = await pool.query("SELECT name FROM rt");
+    const rtNames = rtResult.rows;
+
+    // Fetch current user's gatepasses
+    let myPasses = [];
+    if (req.session.user && req.session.user.rrn) {
+      const passResult = await pool.query(
+        "SELECT * FROM gatepasses WHERE rrn = $1 ORDER BY id DESC",
+        [req.session.user.rrn]
+      );
+      myPasses = passResult.rows;
+    }
+
     res.render("gatepass", {
-      message: "Error fetching RT names",
+      rtNames,
+      myPasses,
+      user: req.session.user
+    });
+  } catch (error) {
+    console.error("Error fetching gatepass page data:", error);
+    res.render("gatepass", {
+      message: "Error fetching data",
       user: req.session.user,
+      rtNames: [],
+      myPasses: []
+    });
+  }
+});
+
+router.get("/mypasses", async (req, res) => {
+  try {
+    let myPasses = [];
+    if (req.session.user && req.session.user.rrn) {
+      const passResult = await pool.query(
+        "SELECT * FROM gatepasses WHERE rrn = $1 ORDER BY id DESC",
+        [req.session.user.rrn]
+      );
+      myPasses = passResult.rows;
+    }
+    res.render("mypasses", {
+      myPasses,
+      user: req.session.user
+    });
+  } catch (error) {
+    console.error("Error fetching My Passes:", error);
+    res.render("mypasses", {
+      message: "Error fetching data",
+      user: req.session.user,
+      myPasses: []
     });
   }
 });
@@ -230,9 +272,17 @@ router.post("/gatepass", async (req, res) => {
         `;
     await pool.query(updateQuery, [pdfUrl, gatepassId]);
 
+    // Fetch updated passes
+    const passResult = await pool.query(
+      "SELECT * FROM gatepasses WHERE rrn = $1 ORDER BY id DESC",
+      [rrn]
+    );
+    const myPasses = passResult.rows;
+
     // Send response with PDF link and success message
     res.render("gatepass", {
       rtNames,
+      myPasses,
       message: "Gatepass request sent successfully!",
       pdfUrl: pdfUrl,
       user: req.session.user,
@@ -240,9 +290,20 @@ router.post("/gatepass", async (req, res) => {
   } catch (error) {
     const result = await pool.query("SELECT name FROM rt");
     const rtNames = result.rows;
+    // Fetch passes even on error if possible
+    let myPasses = [];
+    if (req.session.user && req.session.user.rrn) {
+      const passResult = await pool.query(
+        "SELECT * FROM gatepasses WHERE rrn = $1 ORDER BY id DESC",
+        [req.session.user.rrn]
+      );
+      myPasses = passResult.rows;
+    }
+
     console.error("Error processing gatepass request:", error);
     res.render("gatepass", {
       rtNames,
+      myPasses,
       message: "There was an error processing your request. Please try again.",
       user: req.session.user,
     });

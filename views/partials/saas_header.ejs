@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>HostelMaster ERP | Premium Student Living</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- FontAwesome for Chatbot and existing icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Legacy Styles (for forms and specific page layouts) -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Override potential legacy conflicting styles */
+        header a {
+            text-decoration: none;
+        }
+
+        footer a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white transition-colors duration-200">
+    <!-- Top Navigation Bar -->
+    <header
+        class="sticky top-0 z-50 w-full border-b border-solid border-[#f0f2f4] dark:border-[#2a343f] bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-3 flex items-center justify-between whitespace-nowrap">
+            <div class="flex items-center gap-3 text-[#111418] dark:text-white">
+                <a href="/" class="flex items-center gap-3 decoration-none text-current">
+                    <div class="h-10">
+                        <img src="https://crescent.mastersofterp.in/Images/DEFAULT_BG/default_logo1.png"
+                            alt="College Logo" class="h-full object-contain">
+                    </div>
+
+                </a>
+            </div>
+            <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+                <nav class="flex items-center gap-8">
+                    <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
+                        href="/">Home</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
+                        href="/gatepass">Gatepass</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
+                        href="/maintenance">Maintenance</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
+                        href="/medical">Medical</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
+                        href="/mypasses">My Passes</a>
+                </nav>
+                <div class="flex gap-3">
+                    <% if (typeof user !=='undefined' && user) { %>
+                        <div class="flex items-center gap-2">
+                            <div
+                                class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                                <%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %>
+                            </div>
+                            <a href="/logout"
+                                class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 decoration-none">
+                                Logout
+                            </a>
+                        </div>
+                        <% } else { %>
+                            <a href="/login"
+                                class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 decoration-none">
+                                Login
+                            </a>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full min-h-[80vh]">

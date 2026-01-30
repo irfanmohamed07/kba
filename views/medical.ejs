@@ -1,48 +1,126 @@
-<%- include('./partials/header') %>
+<%- include('partials/saas_header') %>
 
-<section>
-    <div class="container">
-        <div class="box">
-             
-             <!-- Logo at the top center -->
-            <div class="electricalForm-logo">
-                <!-- <img src="/images/housekeeping-logo.jpg" alt="Carpentry Logo"> -->
-                 <h2 style="text-align: center;">Medical Form</h2>
+    <section class="py-16 bg-gradient-to-b from-[#f8fafc] to-white min-h-[80vh]">
+        <div class="container mx-auto px-4 max-w-2xl">
+            <div
+                class="bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+
+                <!-- Header Section -->
+                <div class="bg-red-500 p-8 text-center text-white">
+                    <div
+                        class="inline-flex items-center justify-center size-16 bg-white/20 backdrop-blur-md rounded-2xl mb-4">
+                        <i class="fas fa-heartbeat text-3xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Medical Assistance</h2>
+                    <p class="text-red-100 mt-2 font-medium opacity-90">Priority health support for hostel residents</p>
+                </div>
+
+                <div class="p-8 md:p-10">
+                    <form id="medicalForm" method="post" action="/medical" class="space-y-6">
+
+                        <!-- Personal Info Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label for="name" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-red-500">person</span>
+                                    Full Name
+                                </label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" required
+                                    value="<%= user ? user.name : '' %>"
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label for="rrn" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-red-500">fingerprint</span>
+                                    RRN Number
+                                </label>
+                                <input type="text" id="rrn" name="rrn" placeholder="Enter RRN" required
+                                    value="<%= user ? user.rrn : '' %>"
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Location Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label for="block" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-red-500">apartment</span>
+                                    Hostel Block
+                                </label>
+                                <input type="text" id="block" name="block" placeholder="Example: A-Block" required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label for="room_number"
+                                    class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-red-500">door_front</span>
+                                    Room Number
+                                </label>
+                                <input type="text" id="room_number" name="room_number" placeholder="Example: 304"
+                                    required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Contact Section -->
+                        <div class="space-y-1.5">
+                            <label for="phone_number" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-red-500">call</span>
+                                Emergency Contact Number
+                            </label>
+                            <div class="relative">
+                                <span
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">+91</span>
+                                <input type="text" id="phone_number" name="phone_number"
+                                    placeholder="10-digit mobile number" pattern="\d{10}" maxlength="10" minlength="10"
+                                    required
+                                    class="w-full pl-12 pr-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Issue Section -->
+                        <div class="space-y-1.5">
+                            <label for="issue" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-red-500">notes</span>
+                                Health Details / Issue Description
+                            </label>
+                            <textarea id="issue" name="issue" rows="4"
+                                placeholder="Briefly describe your health condition or required assistance..." required
+                                class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-red-500 focus:ring-red-500 transition-all resize-none"></textarea>
+                        </div>
+
+                        <!-- Action Section -->
+                        <div class="pt-4">
+                            <button type="submit"
+                                class="w-full group relative flex items-center justify-center gap-3 py-4 px-6 bg-red-500 text-white font-extrabold rounded-2xl shadow-lg shadow-red-200 hover:bg-red-600 hover:-translate-y-0.5 transition-all duration-250">
+                                <i
+                                    class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                                Submit Urgent Request
+                            </button>
+
+                            <% if (locals["message"]) { %>
+                                <div
+                                    class="mt-6 p-4 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3 text-green-700">
+                                    <span class="material-symbols-outlined text-green-500">check_circle</span>
+                                    <p class="text-sm font-bold">
+                                        <%= message %>
+                                    </p>
+                                </div>
+                                <% } %>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="p-6 bg-gray-50 text-center border-t border-gray-100">
+                    <p class="text-xs text-gray-500 flex items-center justify-center gap-1.5 font-medium">
+                        <span class="material-symbols-outlined text-sm">security</span>
+                        Your health data is handled with strict confidentiality.
+                    </p>
+                </div>
+
             </div>
-
-            <form id="electricalForm" method="post" action="/medical">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
-
-                <label for="rrn">RRN/Application Number</label>
-                <input type="text" id="rrn" name="rrn" placeholder="Enter RRN or application number" required>
-
-                <label for="block">Block</label>
-                <input type="text" id="block" name="block" placeholder="Enter block" required>
-
-                <label for="room_number">Room Number</label>
-                <input type="text" id="room_number" name="room_number" placeholder="Enter room number" required>
-
-                <label for="phone_number">Phone Number</label>
-                <input type="text" id="phone_number" name="phone_number" 
-                      placeholder="Enter phone number" 
-                     pattern="\d{10}" 
-                     maxlength="10" 
-                   minlength="10" 
-                      required>
-
-                <label for="issue">Health Details</label>
-                <textarea id="issue" name="issue" rows="4" placeholder="Describe the Health issue" required></textarea>
-
-                <!-- Submit button -->
-                <button type="submit" class="housekeeping-submit-btn">Submit Medical Request</button>
-
-                <p style="color: green; text-align: center;"><%= locals["message"] %></p>
-            </form>
-            
-             
         </div>
-    </div>
-</section>
+    </section>
 
-<%- include('./partials/footer') %>
+    <%- include('partials/saas_footer') %>

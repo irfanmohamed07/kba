@@ -1,103 +1,179 @@
-<%- include('partials/header') %>
+<%- include('partials/saas_header') %>
 
-    <section>
-        <div class="container">
-            <div class="box">
+    <section class="py-16 bg-gradient-to-b from-[#f8fafc] to-white min-h-[80vh]">
+        <div class="max-w-[800px] mx-auto px-6">
+            <div
+                class="bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
 
-                <div class="gatepass-logo">
-                    <img src="/images/gatepass-logo.jpg" alt="Hostel Logo">
+                <!-- Header Section -->
+                <div class="bg-primary p-8 text-center text-white">
+                    <div
+                        class="inline-flex items-center justify-center size-16 bg-white/20 backdrop-blur-md rounded-2xl mb-4 text-white">
+                        <span class="material-symbols-outlined text-4xl">stadium</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Gate Pass Request</h2>
+                    <p class="text-blue-100 mt-2 font-medium opacity-90">Digital entry and exit authorization</p>
                 </div>
 
-                <form id="gatepassForm" method="post" action="/gatepass">
+                <div class="p-8 md:p-10">
+                    <form id="gatepassForm" method="post" action="/gatepass" class="space-y-6">
 
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
-
-                    <label for="rrn">RRN/Application Number</label>
-                    <input type="text" id="rrn" name="rrn" placeholder="Enter RRN or application number" required>
-
-                    <label for="degree">Department/Degree/Year</label>
-                    <input type="text" id="degree" name="degree" placeholder="Enter department, degree, and year"
-                        required>
-
-                    <label for="block_room">Block and Room Number</label>
-                    <input type="text" id="block_room" name="block_room" placeholder="Enter block and room number"
-                        required>
-
-                    <label for="time_out">Date and Time Out</label>
-                    <input type="datetime-local" id="time_out" name="time_out" required>
-
-                    <label for="time_in">Date and Time In</label>
-                    <input type="datetime-local" id="time_in" name="time_in" required>
-
-                    <label for="reason">Reason for Gate Pass</label>
-                    <input type="text" id="reason" name="reason" placeholder="Enter the reason for the gate pass"
-                        required>
-
-                    <label for="student_contact">Student Contact</label>
-                    <input type="tel" id="student_contact" name="student_contact" pattern="\d{10}" maxlength="10"
-                        minlength="10" placeholder="Enter your contact number" required>
-
-                    <label for="parent_contact">Parent Contact</label>
-                    <input type="tel" id="parent_contact" name="parent_contact" pattern="\d{10}" maxlength="10"
-                        minlength="10" placeholder="Enter your parent's contact number" required>
-
-
-                    <label for="rt_name">RT Name</label>
-                    <select id="rt_name" name="rt_name" maxlength="5" minlength="50" required>
-                        <option value="" disabled selected>Select RT Name</option>
-                        <% rtNames.forEach(rt=> { %>
-                            <option value="<%= rt.name %>">
-                                <%= rt.name %>
-                            </option>
-                            <% }); %>
-                    </select>
-
-
-                    <button type="submit" class="housekeeping-submit-btn">Submit Gate Pass Request</button>
-                    <p style="color: green; text-align: center;">
-                        <%= locals["message"] %>
-                    </p>
-
-                </form>
-
-                <!-- Display uploaded PDF if available -->
-                <% if (typeof pdfUrl !=='undefined' && pdfUrl) { %>
-                    <div class="pdf-preview-section"
-                        style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                        <h3 style="color: white; text-align: center; margin-bottom: 15px;">
-                            <i class="fas fa-file-pdf" style="margin-right: 10px;"></i>Your Gate Pass PDF
-                        </h3>
-                        <div style="background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                            <iframe src="<%= pdfUrl %>" width="100%" height="400"
-                                style="border: none; border-radius: 8px;"></iframe>
+                        <!-- Identification Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label for="name" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">person</span>
+                                    Full Name
+                                </label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" required
+                                    value="<%= user ? user.name : '' %>"
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label for="rrn" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">fingerprint</span>
+                                    RRN Number
+                                </label>
+                                <input type="text" id="rrn" name="rrn" placeholder="Enter RRN" required
+                                    value="<%= user ? user.rrn : '' %>"
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
                         </div>
-                        <div style="text-align: center;">
-                            <a href="<%= pdfUrl %>" target="_blank" class="cta-button primary"
-                                style="display: inline-block; padding: 12px 25px; background: white; color: #667eea; text-decoration: none; border-radius: 25px; font-weight: bold; margin-right: 10px;">
-                                <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i>View Full PDF
-                            </a>
-                            <a href="<%= pdfUrl %>" download class="cta-button secondary"
-                                style="display: inline-block; padding: 12px 25px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; border: 2px solid white;">
-                                <i class="fas fa-download" style="margin-right: 8px;"></i>Download PDF
-                            </a>
+
+                        <!-- Academic Info Section -->
+                        <div class="space-y-1.5">
+                            <label for="degree" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">school</span>
+                                Department / Degree / Year
+                            </label>
+                            <input type="text" id="degree" name="degree" placeholder="Example: CSE / B.Tech / 3rd Year"
+                                required
+                                class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
                         </div>
+
+                        <!-- Hostel Location Section -->
+                        <div class="space-y-1.5">
+                            <label for="block_room" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">home</span>
+                                Block and Room Number
+                            </label>
+                            <input type="text" id="block_room" name="block_room" placeholder="Example: A-Block / 304"
+                                required
+                                class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                        </div>
+
+                        <!-- Scheduling Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label for="time_out" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">logout</span>
+                                    Date and Time Out
+                                </label>
+                                <input type="datetime-local" id="time_out" name="time_out" required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label for="time_in" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">login</span>
+                                    Date and Time In
+                                </label>
+                                <input type="datetime-local" id="time_in" name="time_in" required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Reason Section -->
+                        <div class="space-y-1.5">
+                            <label for="reason" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">description</span>
+                                Reason for Gate Pass
+                            </label>
+                            <input type="text" id="reason" name="reason" placeholder="Enter the detailed reason"
+                                required
+                                class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                        </div>
+
+                        <!-- Contact Information Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1.5">
+                                <label for="student_contact"
+                                    class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">phone_iphone</span>
+                                    Student Contact
+                                </label>
+                                <input type="tel" id="student_contact" name="student_contact" pattern="\d{10}"
+                                    maxlength="10" minlength="10" placeholder="10-digit number" required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label for="parent_contact"
+                                    class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm text-primary">family_restroom</span>
+                                    Parent Contact
+                                </label>
+                                <input type="tel" id="parent_contact" name="parent_contact" pattern="\d{10}"
+                                    maxlength="10" minlength="10" placeholder="10-digit number" required
+                                    class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                            </div>
+                        </div>
+
+                        <!-- RT Selection -->
+                        <div class="space-y-1.5">
+                            <label for="rt_name" class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
+                                Select Residence Tutor (RT)
+                            </label>
+                            <select id="rt_name" name="rt_name" required
+                                class="w-full px-4 py-3 rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:border-primary focus:ring-primary transition-all">
+                                <option value="" disabled selected>Select RT Name</option>
+                                <% rtNames.forEach(rt=> { %>
+                                    <option value="<%= rt.name %>">
+                                        <%= rt.name %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+
+                        <!-- Action Section -->
+                        <div class="pt-4">
+                            <button type="submit"
+                                class="w-full group relative flex items-center justify-center gap-3 py-4 px-6 bg-primary text-white font-extrabold rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-600 hover:-translate-y-0.5 transition-all duration-250">
+                                <span
+                                    class="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>
+                                Submit Gate Pass Request
+                            </button>
+
+                            <% if (locals["message"]) { %>
+                                <div
+                                    class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-2xl flex items-center gap-3 text-blue-700">
+                                    <span class="material-symbols-outlined text-primary">info</span>
+                                    <p class="text-sm font-bold">
+                                        <%= message %>
+                                    </p>
+                                </div>
+                                <% } %>
+                        </div>
+                    </form>
+
+                    <div class="mt-8 pt-8 border-t border-gray-100 text-center">
+                        <p class="text-sm text-gray-500 font-medium">
+                            Need to check previous requests?
+                            <a href="/mypasses"
+                                class="text-primary font-bold hover:underline inline-flex items-center gap-1">
+                                Go to My Passes <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </p>
                     </div>
-                    <% } %>
-
-                        <div id="confirmation-message" style="margin-top: 20px;"></div>
-
-
-                        <div id="error-message" style="color: red; margin-top: 20px;"></div>
+                </div>
             </div>
         </div>
     </section>
 
     <script>
-        let message = '';
-  <% if (typeof message !== 'undefined') { %>
+    <% if (typeof message !== 'undefined' && message) { %>
+            // Use a more modern notification if possible, otherwise keep alert
             alert('<%= message %>');
     <% } %>
     </script>
 
-    <%- include('partials/footer') %>
+    <%- include('partials/saas_footer') %>

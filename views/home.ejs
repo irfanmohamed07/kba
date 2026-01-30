@@ -1,165 +1,409 @@
-<%- include('partials/header')%>
+<!DOCTYPE html>
+<html class="light" lang="en">
 
-    <!-- Simple Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-star"></i>
-                <span>Premium Student Living</span>
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>HostelMaster ERP | Simplify Your Hostel Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- FontAwesome for Chatbot -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white transition-colors duration-200">
+    <!-- Top Navigation Bar -->
+    <header
+        class="sticky top-0 z-50 w-full border-b border-solid border-[#f0f2f4] dark:border-[#2a343f] bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-3 flex items-center justify-between whitespace-nowrap">
+            <div class="flex items-center gap-3 text-[#111418] dark:text-white">
+                <div class="h-10">
+                    <img src="https://crescent.mastersofterp.in/Images/DEFAULT_BG/default_logo1.png" alt="College Logo"
+                        class="h-full object-contain">
+                </div>
+
             </div>
-
-            <h1 class="hero-title">
-                Welcome to <span class="gradient-text">KBA Men's Hostel</span>
-            </h1>
-
-            <p class="hero-subtitle">
-                Your Home Away From Home at BSA Crescent Institute
-            </p>
-
-            <p class="hero-location">
-                <i class="fas fa-map-marker-alt"></i>
-                Tamil Nadu, India
-            </p>
-
-            <div class="hero-cta">
-                <a href="/gatepass" class="cta-button primary">
-                    Get Gate Pass
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a href="/aboutus" class="cta-button secondary">
-                    Learn More
-                </a>
-            </div>
-
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Students</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number">200+</div>
-                    <div class="stat-label">Rooms</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quick Services -->
-    <section class="quick-services-section">
-        <div class="container-custom">
-            <div class="services-row">
-                <a href="/gatepass" class="quick-service-card">
-                    <div class="service-icon-wrapper gradient-1">
-                        <i class="fas fa-id-card"></i>
-                    </div>
-                    <h4>Gate Pass</h4>
-                    <p>Request your pass</p>
-                </a>
-                <a href="/maintenance" class="quick-service-card">
-                    <div class="service-icon-wrapper gradient-2">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h4>Maintenance</h4>
-                    <p>Report issues</p>
-                </a>
-                <a href="/housekeeping" class="quick-service-card">
-                    <div class="service-icon-wrapper gradient-3">
-                        <i class="fas fa-broom"></i>
-                    </div>
-                    <h4>Housekeeping</h4>
-                    <p>Cleaning requests</p>
-                </a>
-                <a href="/medical" class="quick-service-card">
-                    <div class="service-icon-wrapper gradient-4">
-                        <i class="fas fa-first-aid"></i>
-                    </div>
-                    <h4>Medical</h4>
-                    <p>Health support</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container-custom">
-            <div class="section-header">
-                <span class="section-badge">Features</span>
-                <h2 class="section-title">Why Choose <span class="gradient-text">KBA Hostel</span></h2>
-                <p class="section-subtitle">Experience comfort and convenience</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>24/7 Security</h3>
-                    <p>Round-the-clock security with CCTV surveillance</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-wifi"></i>
-                    </div>
-                    <h3>High-Speed WiFi</h3>
-                    <p>Fast internet throughout the premises</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3>Nutritious Meals</h3>
-                    <p>Healthy meals prepared fresh daily</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bed"></i>
-                    </div>
-                    <h3>Spacious Rooms</h3>
-                    <p>Comfortable rooms for study and rest</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>AI-Powered System</h3>
-                    <p>Smart complaint classification and routing</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Quick Maintenance</h3>
-                    <p>Fast response to all maintenance requests</p>
+            <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+                <nav class="flex items-center gap-8">
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="/">Home</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="/gatepass">Gatepass</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors"
+                        href="/maintenance">Maintenance</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="/medical">Medical</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="/mypasses">My Passes</a>
+                </nav>
+                <div class="flex gap-3">
+                    <button
+                        class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold transition-all hover:bg-primary/90">
+                        Book a Demo
+                    </button>
+                    <!-- Updated Login Link to route to actual login/gatepass/etc or just keep valid structure -->
+                    <a href="/login"
+                        class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 decoration-none">
+                        Login
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Announcement -->
-    <section class="announcement-section">
-        <div class="announcement-container">
-            <div class="announcement-icon">
-                <i class="fas fa-bullhorn"></i>
-            </div>
-            <div class="announcement-content">
-                <div class="announcement-text">
-                    <span class="announcement-label">Announcement</span>
-                    <p>New semester registrations open. Experience premium living with modern amenities.</p>
+    </header>
+    <main class="w-full">
+        <!-- Hero Section -->
+        <section class="max-w-[1280px] mx-auto px-6 lg:px-10 py-12 lg:py-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="flex flex-col gap-8 order-2 lg:order-1">
+                    <div class="flex flex-col gap-4 text-left">
+                        <h1
+                            class="text-[#111418] dark:text-white text-4xl font-black leading-tight tracking-tight md:text-5xl lg:text-6xl">
+                            Simplify Your Hostel Management with One Powerful ERP
+                        </h1>
+                        <h2
+                            class="text-[#4e5e71] dark:text-gray-400 text-lg md:text-xl font-normal leading-relaxed max-w-[540px]">
+                            Automate billing, manage room allocations, and provide a seamless resident experience—all
+                            from
+                            one centralized dashboard built for modern accommodation providers.
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <button
+                            class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/25 hover:translate-y-[-2px] transition-all">
+                            Start Free Trial
+                        </button>
+                        <button
+                            class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-white dark:bg-[#2a343f] border border-[#dbe0e6] dark:border-[#3a4754] text-[#111418] dark:text-white text-base font-bold hover:bg-gray-50 dark:hover:bg-[#34404d] transition-all">
+                            View Pricing
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-4 mt-2">
+                        <div class="flex -space-x-3">
+                            <img alt="User"
+                                class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark"
+                                data-alt="Portrait of a female user"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGKi80NUD0pGQZSmY17wys3ui-LuUY7GVTfp9sKaGoFiVXlHGvRmvVhY900dXRYpPY60ijWRxzGPNdZRDGvHO080ghzXLEd9ykhs3W5PC9qbQTmUj8CYAo6HfEjf0YgXUglkN70RB8NPdUMt5V1dZ0kkrNs9Q7tNv4pj0TohaKSRljWv85Exdv0uvo_DIokMzHLIV6Gud48kKEDcD4lmD-p6ApeaHFBn3pMODaZbt5wj-2ulgPLOw6Z4Qn6O6KjApmQtn-NstXm4gX" />
+                            <img alt="User"
+                                class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark"
+                                data-alt="Portrait of a male user"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ5buHILhUpsDpgO-gD2Qtl49HltgFcLBVotPXh1aXca8H1pUmzObatgKOfXX3ItdGIlnVbIXMu_oV1LDzal303aoesbSq_pwBeXehzlA04d3DkX9SF8O-KrIntHWgy6GDTTUBo56KD_9XgVwC7-D8RR5_O2Nz-I5DZ_ikqgZrZ1IdkuA9Igzn3qYfpg8tci9sn-RGLw8OnpLtSTukeSW9G-JqKKjip723ARXwHjcdxhpHLYi5M4haO_IVhyQZpOCQ9vU3ZAQU2qKu" />
+                            <img alt="User"
+                                class="w-10 h-10 rounded-full border-2 border-white dark:border-background-dark"
+                                data-alt="Portrait of a professional user"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-PCcu6f2QOBZ5IgK_aeBM2luvMTU8DWcNjoLQKcHivDZQbH_04AaklG6hjpMBPgRMyoP11xUhbTmJpqPBQsozYhCjSz2K2m1tQDzbnGvXbIVHc7IHFz_eu_pUvFGmtsTQXv7efCIhsHRu8nTmG34G4wozIgLc-NdNqW8V6p9zC66NHVdRLKC9_Ax8bp_7OKVmOD2YRESYTOYx2eqyCVWn-PAE6At9C8S9mHzYSBWtNpgNdN9H-1n2TXZf1r-qFeYD3C4cbfLISayq" />
+                        </div>
+                        <p class="text-sm font-medium text-[#617589] dark:text-gray-400">Trusted by 500+ Hostel Owners
+                            worldwide</p>
+                    </div>
+                </div>
+                <!-- Custom College Photo Integrated Here -->
+                <div class="order-1 lg:order-2">
+                    <div
+                        class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-[#f0f2f4] dark:bg-[#2a343f]">
+                        <img alt="Modern Hostel" class="w-full h-full object-cover"
+                            data-alt="Modern hostel interior with comfortable common area" src="/images/home.jpg" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <!-- Stats Section -->
+        <section class="bg-white dark:bg-[#151f2b] border-y border-[#dbe0e6] dark:border-[#2a343f]">
+            <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-12">
+                <div class="flex flex-wrap gap-6 md:gap-12 justify-between">
+                    <div class="flex flex-col gap-1 flex-1 min-w-[200px] text-center lg:text-left">
+                        <p class="text-[#617589] dark:text-gray-400 text-sm font-semibold uppercase tracking-wider">
+                            Hostels Managed</p>
+                        <p class="text-[#111418] dark:text-white text-4xl font-black leading-tight">500+</p>
+                        <p
+                            class="text-[#078838] text-sm font-bold flex items-center justify-center lg:justify-start gap-1">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> +15% this quarter
+                        </p>
+                    </div>
+                    <div class="w-px h-16 bg-[#dbe0e6] dark:bg-[#2a343f] hidden lg:block"></div>
+                    <div class="flex flex-col gap-1 flex-1 min-w-[200px] text-center lg:text-left">
+                        <p class="text-[#617589] dark:text-gray-400 text-sm font-semibold uppercase tracking-wider">
+                            Active Residents</p>
+                        <p class="text-[#111418] dark:text-white text-4xl font-black leading-tight">50,000+</p>
+                        <p
+                            class="text-[#078838] text-sm font-bold flex items-center justify-center lg:justify-start gap-1">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> +25% growth
+                        </p>
+                    </div>
+                    <div class="w-px h-16 bg-[#dbe0e6] dark:bg-[#2a343f] hidden lg:block"></div>
+                    <div class="flex flex-col gap-1 flex-1 min-w-[200px] text-center lg:text-left">
+                        <p class="text-[#617589] dark:text-gray-400 text-sm font-semibold uppercase tracking-wider">
+                            Efficiency Increase</p>
+                        <p class="text-[#111418] dark:text-white text-4xl font-black leading-tight">40%</p>
+                        <p
+                            class="text-[#078838] text-sm font-bold flex items-center justify-center lg:justify-start gap-1">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> +10% YoY
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Features Section -->
+        <section class="max-w-[1280px] mx-auto px-6 lg:px-10 py-20 lg:py-32" id="features">
+            <div class="flex flex-col gap-12">
+                <div class="flex flex-col gap-4 text-center max-w-[800px] mx-auto">
+                    <h2 class="text-primary text-sm font-bold tracking-[0.2em] uppercase">Core Platform</h2>
+                    <h3
+                        class="text-[#111418] dark:text-white text-3xl font-black leading-tight md:text-5xl tracking-tight">
+                        Everything you need to run a modern hostel
+                    </h3>
+                    <p class="text-[#617589] dark:text-gray-400 text-lg leading-relaxed">
+                        Our comprehensive suite of tools helps you focus on hospitality while we handle the
+                        administration and complex workflows.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Feature 1 -->
+                    <div
+                        class="flex flex-col gap-6 p-8 rounded-2xl border border-[#dbe0e6] dark:border-[#2a343f] bg-white dark:bg-[#151f2b] hover:shadow-xl transition-all hover:border-primary/30 group">
+                        <div
+                            class="size-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-2xl">receipt_long</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-tight">
+                                Automated Billing</h4>
+                            <p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                Generate smart invoices, track payments via UPI/Card, and send automatic reminders to
+                                residents instantly.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div
+                        class="flex flex-col gap-6 p-8 rounded-2xl border border-[#dbe0e6] dark:border-[#2a343f] bg-white dark:bg-[#151f2b] hover:shadow-xl transition-all hover:border-primary/30 group">
+                        <div
+                            class="size-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-2xl">bed</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-tight">
+                                Room Allocation</h4>
+                            <p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                Efficient drag-and-drop tools to manage occupancy, room assignments, and maintenance
+                                status in real-time.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div
+                        class="flex flex-col gap-6 p-8 rounded-2xl border border-[#dbe0e6] dark:border-[#2a343f] bg-white dark:bg-[#151f2b] hover:shadow-xl transition-all hover:border-primary/30 group">
+                        <div
+                            class="size-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-2xl">person_pin</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-tight">
+                                Resident Portal</h4>
+                            <p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                A dedicated mobile-friendly portal for residents to pay fees, log complaints, and
+                                request gate passes.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div
+                        class="flex flex-col gap-6 p-8 rounded-2xl border border-[#dbe0e6] dark:border-[#2a343f] bg-white dark:bg-[#151f2b] hover:shadow-xl transition-all hover:border-primary/30 group">
+                        <div
+                            class="size-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-2xl">inventory_2</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h4 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-tight">
+                                Inventory Tracking</h4>
+                            <p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed">
+                                Track furniture, electronics, and kitchen supplies across multiple locations with
+                                low-stock alerts.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Detailed Benefit Section -->
+        <section class="bg-[#f0f2f4] dark:bg-[#0c141c] py-20 lg:py-32">
+            <div class="max-w-[1280px] mx-auto px-6 lg:px-10 flex flex-col gap-24">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="flex flex-col gap-6">
+                        <div class="size-10 bg-primary/20 text-primary rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-xl">security</span>
+                        </div>
+                        <h2
+                            class="text-[#111418] dark:text-white text-3xl font-bold leading-tight md:text-4xl tracking-tight">
+                            Smart Gate Pass &amp; Security Management
+                        </h2>
+                        <p class="text-[#617589] dark:text-gray-400 text-lg leading-relaxed">
+                            Enhance resident safety with digital gate passes. Parents get instant SMS notifications for
+                            leaves, and security guards can verify identities with a single scan.
+                        </p>
+                        <ul class="flex flex-col gap-3">
+                            <li class="flex items-center gap-3 text-[#111418] dark:text-white font-medium">
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                                QR-based Identity Verification
+                            </li>
+                            <li class="flex items-center gap-3 text-[#111418] dark:text-white font-medium">
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                                Instant Parent/Guardian Alerts
+                            </li>
+                            <li class="flex items-center gap-3 text-[#111418] dark:text-white font-medium">
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                                Visitor Management System
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="rounded-3xl overflow-hidden shadow-xl">
+                        <img alt="Security Dashboard" class="w-full object-cover aspect-video"
+                            data-alt="Digital dashboard showing security logs and occupancy stats"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDftckxkXaqimooE2lHrxGyItCBHJiHpL3C30ACeTKggnkG1cpES41byxM4kceMHXBXFaaMmvisliHRh_zdrT-MZ496LL9VeHtkuL75H7Brd9kVTquGNQnOV2qFQ-Rf-XUOl_MthvHO9k0rsonX2elcoYmlh4C9SXAeL51qn-AW4k0BqDUiEilktU_O1JuErbIqiNvCUvOfw_A1VkXuYkooKj_aML-JS4EB3zGxo0OoFGZXkZ8V0j9JuXVlBrxhtcloyrsk-QaTi-iu" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="max-w-[1280px] mx-auto px-6 lg:px-10 py-20">
+            <div
+                class="bg-primary rounded-3xl p-10 lg:p-20 text-center flex flex-col items-center gap-8 relative overflow-hidden">
+                <!-- Abstract pattern background -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                    <svg height="100%" preserveaspectratio="none" viewbox="0 0 100 100" width="100%">
+                        <defs>
+                            <pattern height="10" id="grid" patternunits="userSpaceOnUse" width="10">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"></path>
+                            </pattern>
+                        </defs>
+                        <rect fill="url(#grid)" height="100%" width="100%"></rect>
+                    </svg>
+                </div>
+                <h2 class="text-white text-3xl font-black leading-tight md:text-5xl tracking-tight max-w-[800px] z-10">
+                    Ready to modernize your hostel operations?
+                </h2>
+                <p class="text-white/90 text-lg md:text-xl font-medium max-w-[600px] z-10">
+                    Join hundreds of administrators who have reduced their manual workload by 40% using HostelMaster.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center z-10">
+                    <button
+                        class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-white text-primary text-base font-black shadow-xl hover:scale-105 transition-all">
+                        Schedule a Demo
+                    </button>
+                    <button
+                        class="flex min-w-[200px] cursor-pointer items-center justify-center rounded-xl h-14 px-8 bg-primary/20 border-2 border-white text-white text-base font-black hover:bg-white/10 transition-all">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer class="bg-white dark:bg-[#101922] border-t border-[#dbe0e6] dark:border-[#2a343f] pt-16 pb-8">
+            <div class="max-w-[1280px] mx-auto px-6 lg:px-10 flex flex-col gap-16">
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12">
+                    <div class="col-span-2 flex flex-col gap-6">
+                        <div class="flex items-center gap-3 text-[#111418] dark:text-white">
+                            <div class="size-6 text-primary">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold leading-tight">HostelMaster ERP</h2>
+                        </div>
+                        <p class="text-[#617589] dark:text-gray-400 text-sm leading-relaxed max-w-[320px]">
+                            The world's most intuitive ERP for hostels, student housing, and co-living spaces.
+                            Empowering administrators and delighting residents since 2018.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-[#111418] dark:text-white font-bold text-sm">Product</h4>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Features</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary"
+                            href="#">Integrations</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Pricing</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Roadmap</a>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-[#111418] dark:text-white font-bold text-sm">Company</h4>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">About Us</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Careers</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Contact</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Blog</a>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-[#111418] dark:text-white font-bold text-sm">Legal</h4>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Privacy
+                            Policy</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Terms of
+                            Service</a>
+                        <a class="text-[#617589] dark:text-gray-400 text-sm hover:text-primary" href="#">Security</a>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-[#dbe0e6] dark:border-[#2a343f] gap-4">
+                    <p class="text-[#617589] dark:text-gray-400 text-sm">
+                        © 2024 HostelMaster ERP. All rights reserved.
+                    </p>
+                    <div class="flex items-center gap-6">
+                        <a class="text-[#617589] dark:text-gray-400 hover:text-primary" href="#">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="size-5 fill-current" viewbox="0 0 24 24">
+                                <path
+                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a class="text-[#617589] dark:text-gray-400 hover:text-primary" href="#">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="size-5 fill-current" viewbox="0 0 24 24">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.2225 0z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
 
-    <%- include('partials/footer')%>
+    <!-- Chatbot Integration -->
+    <%- include('partials/chatbot') %>
+
+        <!-- Scripts -->
+        <script src="/script/script.js"></script>
+</body>
+
+</html>

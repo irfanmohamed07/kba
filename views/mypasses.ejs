@@ -1,0 +1,90 @@
+<%- include('partials/saas_header') %>
+
+    <section class="py-12 min-h-[70vh]">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+            <div class="flex flex-col gap-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-black text-[#111418] dark:text-white">My Gatepasses</h2>
+                        <p class="text-[#617589] mt-2">Track your past and pending gatepass requests</p>
+                    </div>
+                    <a href="/gatepass"
+                        class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-bold hover:shadow-lg transition-all">
+                        <span class="material-symbols-outlined">add</span>
+                        New Request
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <% if (locals.myPasses && myPasses.length> 0) { %>
+                        <% myPasses.forEach(pass=> { %>
+                            <div
+                                class="bg-white dark:bg-[#1c2631] rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 p-6 flex flex-col gap-4">
+                                <div class="flex justify-between items-start">
+                                    <span
+                                        class="text-xs font-bold px-3 py-1 rounded-full <%= pass.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %> uppercase tracking-wider">
+                                        <%= pass.status %>
+                                    </span>
+                                    <span class="text-xs text-[#617589]">ID: <%= pass.id %></span>
+                                </div>
+
+                                <div>
+                                    <h4 class="text-lg font-bold text-[#111418] dark:text-white leading-tight">
+                                        <%= pass.reason %>
+                                    </h4>
+                                    <p class="text-sm text-[#617589] mt-1 line-clamp-2">Destination: <%= pass.block_room
+                                            %>
+                                    </p>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 py-3 border-y border-gray-50 dark:border-gray-700">
+                                    <div>
+                                        <p class="text-[10px] uppercase text-[#617589] font-bold">Time Out</p>
+                                        <p class="text-sm font-medium text-[#111418] dark:text-gray-200">
+                                            <%= new Date(pass.time_out).toLocaleDateString() %>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] uppercase text-[#617589] font-bold">Time In</p>
+                                        <p class="text-sm font-medium text-[#111418] dark:text-gray-200">
+                                            <%= pass.time_in ? new Date(pass.time_in).toLocaleDateString() : 'N/A' %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between mt-2">
+                                    <div class="flex items-center gap-2 text-[#617589]">
+                                        <span class="material-symbols-outlined text-sm">person</span>
+                                        <span class="text-xs">RT: <%= pass.rt_name %></span>
+                                    </div>
+                                    <% if (pass.status==='approved' && pass.pdf_url) { %>
+                                        <a href="<%= pass.pdf_url %>" target="_blank"
+                                            class="flex items-center gap-1.5 text-primary font-bold text-sm hover:underline">
+                                            <i class="fas fa-file-pdf"></i>
+                                            Download Slip
+                                        </a>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <div
+                                        class="col-span-full flex flex-col items-center justify-center py-20 bg-white dark:bg-[#1c2631] rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800">
+                                        <div
+                                            class="size-20 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                                            <span
+                                                class="material-symbols-outlined text-4xl text-gray-300">inventory_2</span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-[#111418] dark:text-white">No passes found
+                                        </h3>
+                                        <p class="text-[#617589] mt-1">You haven't requested any gatepasses yet.</p>
+                                        <a href="/gatepass" class="mt-6 text-primary font-bold hover:underline">Request
+                                            your first pass</a>
+                                    </div>
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/saas_footer') %>
