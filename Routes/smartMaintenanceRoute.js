@@ -26,15 +26,16 @@ router.post('/smart-maintenance', async (req, res) => {
         category,
         aiCategory,
         aiConfidence,
-        aiPriority
+        aiPriority,
+        aiSentiment
     } = req.body;
 
     try {
         // Insert complaint into database
         const insertQuery = `
             INSERT INTO maintenance_complaints 
-            (name, rrn, block, room_number, description, category, ai_predicted_category, ai_confidence, priority, status, created_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
+            (name, rrn, block, room_number, description, category, ai_predicted_category, ai_confidence, priority, sentiment, status, created_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
             RETURNING id
         `;
 
@@ -48,6 +49,7 @@ router.post('/smart-maintenance', async (req, res) => {
             aiCategory || category,
             aiConfidence ? parseFloat(aiConfidence) : null,
             aiPriority || 'normal',
+            aiSentiment || 'neutral',
             'pending'
         ];
 
@@ -217,7 +219,8 @@ router.post('/api/predict-category', async (req, res) => {
     }
 
     try {
-        const response = await axios.post(`${ML_SERVICE_URL}/analyze`, { text });
+        // Use the dedicated Complaint AI Agent on port 5002
+        const response = await axios.post('http://localhost:5002/analyze-complaint', { text });
         res.json(response.data);
     } catch (error) {
         console.error('ML Service error:', error.message);

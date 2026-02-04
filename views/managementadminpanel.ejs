@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="/css/managementadminpanel.css">
 </head>
+
 <body>
   <div class="container">
     <div class="sidebar">
@@ -30,10 +32,11 @@
         <li><a href="#" id="registermanagementuser-link">Register Management Admin</a></li>
         <li><a href="#" id="changemanagementpassword-link">Change Management Password</a></li>
         <li><a href="#" id="managementadminlogins-link">Management Logins</a></li>
-        
-      </ul> 
+        <li><a href="#" id="messmanagement-link">Mess Management</a></li>
+
+      </ul>
     </div>
-  
+
     <!-- Three-Dot Menu for Mobile -->
     <div class="three-dot-menu">
       <i class="fas fa-ellipsis-v"></i>
@@ -57,655 +60,827 @@
           <li><a href="#" data-section="registermanagementuser-section">Register Management User</a></li>
           <li><a href="#" data-section="managementadminusers-section">Management Admin User</a></li>
           <li><a href="#" data-section="managementadminlogins-section">Managemnt Admin Login</a></li>
+          <li><a href="#" data-section="messmanagement-section">Mess Management</a></li>
         </ul>
       </div>
     </div>
-     
+
 
     <div id="users-section" class="content-section">
-        <div class="heading"><h3>STUDENT USERS</h3></div> 
-        
-        <input
-          type="text"
-          id="user-search"
-          placeholder="Search users..."
-          onkeyup="filterTable('users-tbody', this)"
-          style="margin-bottom: 10px; width: 100%; padding: 8px;"
-        />
-      
-        <table>
-          <thead>
+      <div class="heading">
+        <h3>STUDENT USERS</h3>
+      </div>
+
+      <input type="text" id="user-search" placeholder="Search users..." onkeyup="filterTable('users-tbody', this)"
+        style="margin-bottom: 10px; width: 100%; padding: 8px;" />
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>RRN</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Rt Id</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="users-tbody">
+          <% users.forEach(user=> { %>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>RRN</th>
-              <th>Mobile Number</th>
-              <th>Email</th>
-              <th>Rt Id</th>
-              <th>Action</th>
+              <td>
+                <%= user.id %>
+              </td>
+              <td>
+                <%= user.name %>
+              </td>
+              <td>
+                <%= user.rrn %>
+              </td>
+              <td>
+                <%= user.student_mob_num %>
+              </td>
+              <td>
+                <%= user.email %>
+              </td>
+              <td>
+                <%= user.rtid %>
+              </td>
+              <td>
+                <form method="post" action="/deleteuser/<%= user.id %>">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
             </tr>
-          </thead>
-          <tbody id="users-tbody">
-            <% users.forEach(user => { %>
-              <tr>
-                <td><%= user.id %></td>
-                <td><%= user.name %></td>
-                <td><%= user.rrn %></td>
-                <td><%= user.student_mob_num %></td>
-                <td><%= user.email %></td>
-                <td><%= user.rtid %></td>
-                <td>
-                  <form method="post" action="/deleteuser/<%= user.id %>">
-                    <button type="submit">Delete</button>
-                  </form>
-                </td>
-              </tr>
             <% }) %>
-          </tbody>
-        </table>
-      </div>
-      
-      <div id="logins-section" class="content-section">
-        <div class="heading"><h3>STUDENT USER LOGINS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Email</th>
-              <th>login_time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (logins && logins.length > 0) { %>
-              <% logins.forEach(login => { %>
-                <tr>
-                  <td><%= login.id %></td>
-                  <td><%= login.email %></td>
-                  <td><%= login.login_time %></td>
-
-
-
-                  <td>
-                    <form style="padding: 0; margin: 0;" method="post" action="/deleteuserlogins/<%= login.id %>">
-                    <button type="submit">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No users found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
- 
-      <div id="rtuser-section" class="content-section">
-        <div class="heading"><h3>RT USERS</h3></div>
-        
-        <input
-          type="text"
-          id="rt-user-search"
-          placeholder="Search RT users..."
-          onkeyup="filterTable('rt-users-tbody', this)"
-          style="margin-bottom: 10px; width: 100%; padding: 8px;"
-        />
-      
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="rt-users-tbody">
-            <% rt.forEach(rt => { %>
-              <tr>
-                <td><%= rt.rtid %></td>
-                <td><%= rt.name %></td>
-                <td><%= rt.email %></td>
-                 
-                <td>
-                  <form method="post" action="/deletertuser/<%= rt.rtid %>">
-                    <button type="submit">Delete</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-       
-      <div id="rtlogins-section" class="content-section">
-        <div class="heading"><h3>RT USER LOGINS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>RT ID</th>
-              <th>RT Email</th>
-              <th>RT Login Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (rtlogins && rtlogins.length > 0) { %>
-              <% rtlogins.forEach(rtlogin => { %>
-                <tr>
-                  <td><%= rtlogin.id %></td>
-                  <td><%= rtlogin.email %></td>
-                  <td><%= rtlogin.login_time %></td>
-
-                  <td>
-                    <form style="padding: 0; margin: 0;" method="post" action="/deleteuser/<%= rtlogin.id %>">
-                    <button type="submit">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No Login Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-    
-      <div id="maintenanceuser-section" class="content-section">
-        <div class="heading"><h3>MAINTENANCE USERS</h3></div> 
-        
-        <input
-          type="text"
-          id="maintenance-user-search"
-          placeholder="Search users..."
-          onkeyup="filterTable('maintenance-user-tbody', this)"
-          style="margin-bottom: 10px; width: 100%; padding: 8px;"
-        />
-        <table>
-          <thead>
-            <tr>
-              <th>Maintenance User Id</th>
-              <th>Maintenance User Name</th>
-              <th>Maintenance User Email</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="maintenance-user-tbody">
-            <% if (maintenanceuser && maintenanceuser.length > 0) { %>
-              <% maintenanceuser.forEach(maintenanceuser => { %>
-                <tr>
-                  <td><%= maintenanceuser.id %></td>
-                  <td><%= maintenanceuser.name %></td>
-                  <td><%= maintenanceuser.email %></td>
-
-                  <td>
-                    <form style="padding: 0; margin: 0;" method="post" action="/deletemaintenanceuser/<%= maintenanceuser.id %>">
-                    <button type="submit">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No User Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-    
-        
-      <div id="maintenanceuserlogins-section" class="content-section">
-        <div class="heading"><h3>MAINTENANCE USER LOGINS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>Maintenance User Id</th>
-              <th>Maintenance User Email</th>
-              <th>Login_time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (maintenanceuserlogins && maintenanceuserlogins.length > 0) { %>
-              <% maintenanceuserlogins.forEach(maintenanceuserlogin => { %>
-                <tr>
-                  <td><%= maintenanceuserlogin.id %></td>
-                  <td><%= maintenanceuserlogin.email %></td>
-                  <td><%= maintenanceuserlogin.login_time %></td>
-
-                  <td>
-                    <form style="padding: 0; margin: 0;" method="post" action="/deletemaintenanceuserlogins/<%= maintenanceuserlogin.id %>">
-                    <button type="submit">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No Login Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-      
-      <div id="registerstudent-section" class="content-section">
-        <div class="heading"><h3>REGISTER STUDENT</h3></div>
-        <form  method="post" action="/registeruser">
-          <!-- Name -->
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter full name" required />
-          <!-- RRN -->
-          <label for="rrn">RRN:</label>
-          <input type="text" id="rrn" name="rrn" placeholder="Enter RRN" maxlength="12" required />
-      
-          <!-- Email -->
-          <label for="parentemail">Parent Email:</label>
-          <input type="email" id="parentemail" name="parent_email" placeholder="Enter email" required />
-
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required />
-      
-          <!-- Password -->
-          <label for="password">Password:</label>
-          <div class="password-container">
-            <input type="password" name="password" id="password1" class="password-input"  placeholder="Enter password" required />
-            <i class="fas fa-eye password-toggle" data-target="password1" style="cursor: pointer;"></i>
-          </div>
-      
-          <!-- Parent Mobile Number -->
-          <label for="parent_mob_num">Parent Mobile Number:</label>
-          <input type="text" id="parent_mob_num" name="parent_mob_num" placeholder="Enter parent's mobile number" pattern="\d{10}" maxlength="10" minlength="10"  required/>
-      
-          <!-- Student Mobile Number -->
-          <label for="student_mob_num">Student Mobile Number:</label>
-          <input type="text" id="student_mob_num" name="student_mob_num" placeholder="Enter student's mobile number" pattern="\d{10}" maxlength="10" minlength="10"  required />
-      
-          <!-- RTID -->
-          <label for="rtid">RT ID:</label>
-          <input type="number" id="rtid" name="rtid" placeholder="Enter RT ID" required />
-      
-           
-      
-          <!-- Submit Button -->
-          <button type="submit" class="submit-button">Register</button>
-        </form>
-      </div>
-      
-
-      <div id="registerrt-section" class="content-section">
-        <div class="heading"><h3>REGISTER RT</h3></div>
-        <form  method="post" action="/registerrt">
-          
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter full name" required />
-        
-          <label for="rtid">RT ID:</label>
-          <input type="number" id="rtid" name="rtid" placeholder="Enter RT ID" required />
-      
-           
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required />
-      
-         
-          <label for="password">Password:</label>
-          <div class="password-container">
-            <input type="password"  id="password2" class="password-input"  name="password" placeholder="Enter password" required />
-            <i class="fas fa-eye password-toggle" data-target="password2" style="cursor: pointer;"></i>
-          </div>
-      
-          
-          <label for="rt_mob_num">RT Mobile Number:</label>
-          <input type="text" id="rt_mob_num" name="rt_mob_num" placeholder="Enter Rt's mobile number" pattern="\d{10}" maxlength="10" minlength="10"  required />
-      
-           
-          <button type="submit" class="submit-button">Register</button>
-        </form>
-      </div>
-
-
-      <div id="registermaintenanceuser-section" class="content-section">
-        <div class="heading"><h3>REGISTER MAINTENANCE USER</h3></div>
-        <form  method="post" action="/registermaintenance">
-          
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter full name" required />
-          
-          <label for="id">MANAGEMENTUSER ID:</label>
-          <input type="number" id="id" name="id" placeholder="Enter USER ID" required />
-
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required />
-      
-         
-          <label for="password">Password:</label>
-          <div class="password-container">
-            <input type="password" id="password3" class="password-input"  name="password" placeholder="Enter password" required />
-            <i class="fas fa-eye password-toggle" data-target="password3" style="cursor: pointer;"></i>
-          </div>
-           
-          <button type="submit" class="submit-button">Register</button>
-        </form>
-      </div>
-
-
-      <div id="gatepassrequestrecords-section" class="content-section">
-        
-        <div class="heading"><h3>GATEPASSE RECORDS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>NAME</th>
-              <th>RRN</th>
-              <th>STUDENT NUMBER</th>
-              <th>TIME_IN</th>
-              <th>TIME_OUT</th>
-              <th>RT ID</th>
-              <th>PARENTS NUMBER</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (gatepasses && gatepasses.length > 0) { %>
-              <% gatepasses.forEach(gatepass => { %>
-                <tr>
-                  <td><%= gatepass.name %></td>
-                  <td><%= gatepass.rrn %></td>
-                  <td><%= gatepass.student_contact %></td>
-                  <td><%= gatepass.time_in %></td>
-                  <td><%= gatepass.time_out %></td>
-                  <td><%= gatepass.rtid %></td>
-                  <td><%= gatepass.parent_contact %></td>
-                  <td><%= gatepass.status %></td>
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-
-      <div id="housekeepingrequestrecords-section" class="content-section">
-        
-        <div class="heading"><h3>HOUSEKEEPING RECORDS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>NAME</th>
-              <th>RRN</th>
-              <th>BLOCK</th>
-              <th>ROOM NUMBER</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (housekeeping_requests && housekeeping_requests.length > 0) { %>
-              <% housekeeping_requests.forEach(housekeeping_request => { %>
-                <tr>
-                  <td><%= housekeeping_request.name %></td>
-                  <td><%= housekeeping_request.rrn %></td>
-                  <td><%= housekeeping_request.block %></td>
-                  <td><%= housekeeping_request.room_number %></td>
-                  <td><%= housekeeping_request.status %></td>
-
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-
-
-
-      <div id="electricalworkrequestrecords-section" class="content-section">
-        
-        <div class="heading"><h3>ELECTRICAL WORK RECORDS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>NAME</th>
-              <th>RRN</th>
-              <th>BLOCK</th>
-              <th>ROOM NUMBER</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (electrical_work_requests && electrical_work_requests.length > 0) { %>
-              <% electrical_work_requests.forEach(electrical_work_request => { %>
-                <tr>
-                  <td><%= electrical_work_request.name %></td>
-                  <td><%= electrical_work_request.rrn %></td>
-                  <td><%= electrical_work_request.block %></td>
-                  <td><%= electrical_work_request.room_number %></td>
-                  <td><%= electrical_work_request.status %></td>
-
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-
-
-
-      <div id="carpentryworkrequestrecords-section" class="content-section">
-        
-        <div class="heading"><h3>CARPENTRY WORK RECORDS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>NAME</th>
-              <th>RRN</th>
-              <th>BLOCK</th>
-              <th>ROOM NUMBER</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (carpentry_requests && carpentry_requests.length > 0) { %>
-              <% carpentry_requests.forEach(carpentry_request => { %>
-                <tr>
-                  <td><%= carpentry_request.name %></td>
-                  <td><%= carpentry_request.rrn %></td>
-                  <td><%= carpentry_request.block %></td>
-                  <td><%= carpentry_request.room_number %></td>
-                  <td><%= carpentry_request.status %></td>
-
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-
- 
-      
-      <div id="medicalrequestrecords-section" class="content-section">
-        
-        <div class="heading"><h3>MEDICAL RECORDS</h3></div>
-        <table>
-          <thead>
-            <tr>
-              <th>NAME</th>
-              <th>RRN</th>
-              <th>BLOCK</th>
-              <th>ROOM NUMBER</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (medical_requests && medical_requests.length > 0) { %>
-              <% medical_requests.forEach(medical_request => { %>
-                <tr>
-                  <td><%= medical_request.name %></td>
-                  <td><%= medical_request.rrn %></td>
-                  <td><%= medical_request.block %></td>
-                  <td><%= medical_request.room_number %></td>
-                  <td><%= medical_request.status %></td>
-
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-
-
-
-      <div id="changemanagementpassword-section" class="content-section">
-        <div class="heading"><h3> CHANGE MANAGEMENT PASSWORD</h3></div>
-          <form id="changePasswordForm" method="post" action="/changemanagementpassword">
-            <div class="change-password-form-group">
-              <label for="oldPassword">Old Password:</label>
-              <input type="password" name="oldPassword"  id="password4" class="password-input"  required>
-              <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
-            </div>
-            <div class="change-password-form-group">
-              <label for="newPassword">New Password:</label>
-              <input type="password" name="newPassword"  id="password5" class="password-input" required>
-              <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
-            </div>
-            <div class="change-password-button-container">
-              <button type="submit">Change Password</button>
-            </div>
-          </form> 
-          
-      </div> 
-
-      <div id="registermanagementuser-section" class="content-section">
-        <div class="heading"><h3>REGISTER MANAGEMENT ADMIN</h3></div>
-        <form  method="post" action="/registermanagementuser">
-          
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="username" placeholder="Enter full name" required />
-        
-          <label for="rtid">MANAGEMENT USER ID:</label>
-          <input type="number" id="id" name="id" placeholder="Enter USER ID" required />
-      
-           
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required />
-      
-         
-          <label for="password">Password:</label>
-          <div class="password-container">
-            <input type="password"  id="password6" class="password-input"  name="password" placeholder="Enter password" required />
-            <i class="fas fa-eye password-toggle" data-target="password2" style="cursor: pointer;"></i>
-          </div>
-      
-           
-          <button type="submit" class="submit-button">Register</button>
-        </form>
-      </div>
-      
-
-      <div id="managementadminusers-section" class="content-section">
-        
-        <div class="heading"><h3>MANAGEMENT ADMIN USERS</h3></div>
-        <input
-          type="text"
-          id="rt-user-search"
-          placeholder="Search Managementadmin users..."
-          onkeyup="filterTable('managementadmin-users-tbody', this)"
-          style="margin-bottom: 10px; width: 100%; padding: 8px;"
-        />
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody id="managementadmin-users-tbody">
-            <% if (admin && admin.length > 0) { %>
-              <% admin.forEach(admins => { %>
-                <tr>
-                  <td><%= admins.id %></td>
-                  <td><%= admins.username %></td>
-                  <td><%= admins.email %></td>
-                  <td>
-                    <form style="padding: 0; margin: 0;" method="post" action="/deletemanagementadminusers/<%= admins.id %>">
-                    <button type="submit">Delete</button>
-                    </form>
-                  </td>
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
- 
-
-      <div id="managementadminlogins-section" class="content-section">
-        
-        <div class="heading"><h3>MANAGEMENT ADMIN LOGINS</h3></div>
-         
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>EMAIL</th>
-              <th>LOGIN TIME</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (admin_logins && admin_logins.length > 0) { %>
-              <% admin_logins.forEach(admin_login => { %>
-                <tr>
-                  <td><%= admin_login.id %></td>
-                  <td><%= admin_login.email %></td>
-                  <td><%= admin_login.login_time %></td>
-    
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="4">No  Records found.</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-       
+        </tbody>
+      </table>
     </div>
+
+    <div id="logins-section" class="content-section">
+      <div class="heading">
+        <h3>STUDENT USER LOGINS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>login_time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (logins && logins.length> 0) { %>
+            <% logins.forEach(login=> { %>
+              <tr>
+                <td>
+                  <%= login.id %>
+                </td>
+                <td>
+                  <%= login.email %>
+                </td>
+                <td>
+                  <%= login.login_time %>
+                </td>
+
+
+
+                <td>
+                  <form style="padding: 0; margin: 0;" method="post" action="/deleteuserlogins/<%= login.id %>">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No users found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="rtuser-section" class="content-section">
+      <div class="heading">
+        <h3>RT USERS</h3>
+      </div>
+
+      <input type="text" id="rt-user-search" placeholder="Search RT users..."
+        onkeyup="filterTable('rt-users-tbody', this)" style="margin-bottom: 10px; width: 100%; padding: 8px;" />
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="rt-users-tbody">
+          <% rt.forEach(rt=> { %>
+            <tr>
+              <td>
+                <%= rt.rtid %>
+              </td>
+              <td>
+                <%= rt.name %>
+              </td>
+              <td>
+                <%= rt.email %>
+              </td>
+
+              <td>
+                <form method="post" action="/deletertuser/<%= rt.rtid %>">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="rtlogins-section" class="content-section">
+      <div class="heading">
+        <h3>RT USER LOGINS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>RT ID</th>
+            <th>RT Email</th>
+            <th>RT Login Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (rtlogins && rtlogins.length> 0) { %>
+            <% rtlogins.forEach(rtlogin=> { %>
+              <tr>
+                <td>
+                  <%= rtlogin.id %>
+                </td>
+                <td>
+                  <%= rtlogin.email %>
+                </td>
+                <td>
+                  <%= rtlogin.login_time %>
+                </td>
+
+                <td>
+                  <form style="padding: 0; margin: 0;" method="post" action="/deleteuser/<%= rtlogin.id %>">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Login Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="maintenanceuser-section" class="content-section">
+      <div class="heading">
+        <h3>MAINTENANCE USERS</h3>
+      </div>
+
+      <input type="text" id="maintenance-user-search" placeholder="Search users..."
+        onkeyup="filterTable('maintenance-user-tbody', this)" style="margin-bottom: 10px; width: 100%; padding: 8px;" />
+      <table>
+        <thead>
+          <tr>
+            <th>Maintenance User Id</th>
+            <th>Maintenance User Name</th>
+            <th>Maintenance User Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="maintenance-user-tbody">
+          <% if (maintenanceuser && maintenanceuser.length> 0) { %>
+            <% maintenanceuser.forEach(maintenanceuser=> { %>
+              <tr>
+                <td>
+                  <%= maintenanceuser.id %>
+                </td>
+                <td>
+                  <%= maintenanceuser.name %>
+                </td>
+                <td>
+                  <%= maintenanceuser.email %>
+                </td>
+
+                <td>
+                  <form style="padding: 0; margin: 0;" method="post"
+                    action="/deletemaintenanceuser/<%= maintenanceuser.id %>">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No User Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div id="maintenanceuserlogins-section" class="content-section">
+      <div class="heading">
+        <h3>MAINTENANCE USER LOGINS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Maintenance User Id</th>
+            <th>Maintenance User Email</th>
+            <th>Login_time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (maintenanceuserlogins && maintenanceuserlogins.length> 0) { %>
+            <% maintenanceuserlogins.forEach(maintenanceuserlogin=> { %>
+              <tr>
+                <td>
+                  <%= maintenanceuserlogin.id %>
+                </td>
+                <td>
+                  <%= maintenanceuserlogin.email %>
+                </td>
+                <td>
+                  <%= maintenanceuserlogin.login_time %>
+                </td>
+
+                <td>
+                  <form style="padding: 0; margin: 0;" method="post"
+                    action="/deletemaintenanceuserlogins/<%= maintenanceuserlogin.id %>">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Login Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="registerstudent-section" class="content-section">
+      <div class="heading">
+        <h3>REGISTER STUDENT</h3>
+      </div>
+      <form method="post" action="/registeruser">
+        <!-- Name -->
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter full name" required />
+        <!-- RRN -->
+        <label for="rrn">RRN:</label>
+        <input type="text" id="rrn" name="rrn" placeholder="Enter RRN" maxlength="12" required />
+
+        <!-- Email -->
+        <label for="parentemail">Parent Email:</label>
+        <input type="email" id="parentemail" name="parent_email" placeholder="Enter email" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required />
+
+        <!-- Password -->
+        <label for="password">Password:</label>
+        <div class="password-container">
+          <input type="password" name="password" id="password1" class="password-input" placeholder="Enter password"
+            required />
+          <i class="fas fa-eye password-toggle" data-target="password1" style="cursor: pointer;"></i>
+        </div>
+
+        <!-- Parent Mobile Number -->
+        <label for="parent_mob_num">Parent Mobile Number:</label>
+        <input type="text" id="parent_mob_num" name="parent_mob_num" placeholder="Enter parent's mobile number"
+          pattern="\d{10}" maxlength="10" minlength="10" required />
+
+        <!-- Student Mobile Number -->
+        <label for="student_mob_num">Student Mobile Number:</label>
+        <input type="text" id="student_mob_num" name="student_mob_num" placeholder="Enter student's mobile number"
+          pattern="\d{10}" maxlength="10" minlength="10" required />
+
+        <!-- RTID -->
+        <label for="rtid">RT ID:</label>
+        <input type="number" id="rtid" name="rtid" placeholder="Enter RT ID" required />
+
+
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-button">Register</button>
+      </form>
+    </div>
+
+
+    <div id="registerrt-section" class="content-section">
+      <div class="heading">
+        <h3>REGISTER RT</h3>
+      </div>
+      <form method="post" action="/registerrt">
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter full name" required />
+
+        <label for="rtid">RT ID:</label>
+        <input type="number" id="rtid" name="rtid" placeholder="Enter RT ID" required />
+
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required />
+
+
+        <label for="password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="password2" class="password-input" name="password" placeholder="Enter password"
+            required />
+          <i class="fas fa-eye password-toggle" data-target="password2" style="cursor: pointer;"></i>
+        </div>
+
+
+        <label for="rt_mob_num">RT Mobile Number:</label>
+        <input type="text" id="rt_mob_num" name="rt_mob_num" placeholder="Enter Rt's mobile number" pattern="\d{10}"
+          maxlength="10" minlength="10" required />
+
+
+        <button type="submit" class="submit-button">Register</button>
+      </form>
+    </div>
+
+
+    <div id="registermaintenanceuser-section" class="content-section">
+      <div class="heading">
+        <h3>REGISTER MAINTENANCE USER</h3>
+      </div>
+      <form method="post" action="/registermaintenance">
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter full name" required />
+
+        <label for="id">MANAGEMENTUSER ID:</label>
+        <input type="number" id="id" name="id" placeholder="Enter USER ID" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required />
+
+
+        <label for="password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="password3" class="password-input" name="password" placeholder="Enter password"
+            required />
+          <i class="fas fa-eye password-toggle" data-target="password3" style="cursor: pointer;"></i>
+        </div>
+
+        <button type="submit" class="submit-button">Register</button>
+      </form>
+    </div>
+
+
+    <div id="gatepassrequestrecords-section" class="content-section">
+
+      <div class="heading">
+        <h3>GATEPASSE RECORDS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>RRN</th>
+            <th>STUDENT NUMBER</th>
+            <th>TIME_IN</th>
+            <th>TIME_OUT</th>
+            <th>RT ID</th>
+            <th>PARENTS NUMBER</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (gatepasses && gatepasses.length> 0) { %>
+            <% gatepasses.forEach(gatepass=> { %>
+              <tr>
+                <td>
+                  <%= gatepass.name %>
+                </td>
+                <td>
+                  <%= gatepass.rrn %>
+                </td>
+                <td>
+                  <%= gatepass.student_contact %>
+                </td>
+                <td>
+                  <%= gatepass.time_in %>
+                </td>
+                <td>
+                  <%= gatepass.time_out %>
+                </td>
+                <td>
+                  <%= gatepass.rtid %>
+                </td>
+                <td>
+                  <%= gatepass.parent_contact %>
+                </td>
+                <td>
+                  <%= gatepass.status %>
+                </td>
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="housekeepingrequestrecords-section" class="content-section">
+
+      <div class="heading">
+        <h3>HOUSEKEEPING RECORDS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>RRN</th>
+            <th>BLOCK</th>
+            <th>ROOM NUMBER</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (housekeeping_requests && housekeeping_requests.length> 0) { %>
+            <% housekeeping_requests.forEach(housekeeping_request=> { %>
+              <tr>
+                <td>
+                  <%= housekeeping_request.name %>
+                </td>
+                <td>
+                  <%= housekeeping_request.rrn %>
+                </td>
+                <td>
+                  <%= housekeeping_request.block %>
+                </td>
+                <td>
+                  <%= housekeeping_request.room_number %>
+                </td>
+                <td>
+                  <%= housekeeping_request.status %>
+                </td>
+
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <div id="electricalworkrequestrecords-section" class="content-section">
+
+      <div class="heading">
+        <h3>ELECTRICAL WORK RECORDS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>RRN</th>
+            <th>BLOCK</th>
+            <th>ROOM NUMBER</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (electrical_work_requests && electrical_work_requests.length> 0) { %>
+            <% electrical_work_requests.forEach(electrical_work_request=> { %>
+              <tr>
+                <td>
+                  <%= electrical_work_request.name %>
+                </td>
+                <td>
+                  <%= electrical_work_request.rrn %>
+                </td>
+                <td>
+                  <%= electrical_work_request.block %>
+                </td>
+                <td>
+                  <%= electrical_work_request.room_number %>
+                </td>
+                <td>
+                  <%= electrical_work_request.status %>
+                </td>
+
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <div id="carpentryworkrequestrecords-section" class="content-section">
+
+      <div class="heading">
+        <h3>CARPENTRY WORK RECORDS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>RRN</th>
+            <th>BLOCK</th>
+            <th>ROOM NUMBER</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (carpentry_requests && carpentry_requests.length> 0) { %>
+            <% carpentry_requests.forEach(carpentry_request=> { %>
+              <tr>
+                <td>
+                  <%= carpentry_request.name %>
+                </td>
+                <td>
+                  <%= carpentry_request.rrn %>
+                </td>
+                <td>
+                  <%= carpentry_request.block %>
+                </td>
+                <td>
+                  <%= carpentry_request.room_number %>
+                </td>
+                <td>
+                  <%= carpentry_request.status %>
+                </td>
+
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <div id="medicalrequestrecords-section" class="content-section">
+
+      <div class="heading">
+        <h3>MEDICAL RECORDS</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>RRN</th>
+            <th>BLOCK</th>
+            <th>ROOM NUMBER</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (medical_requests && medical_requests.length> 0) { %>
+            <% medical_requests.forEach(medical_request=> { %>
+              <tr>
+                <td>
+                  <%= medical_request.name %>
+                </td>
+                <td>
+                  <%= medical_request.rrn %>
+                </td>
+                <td>
+                  <%= medical_request.block %>
+                </td>
+                <td>
+                  <%= medical_request.room_number %>
+                </td>
+                <td>
+                  <%= medical_request.status %>
+                </td>
+
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <div id="changemanagementpassword-section" class="content-section">
+      <div class="heading">
+        <h3> CHANGE MANAGEMENT PASSWORD</h3>
+      </div>
+      <form id="changePasswordForm" method="post" action="/changemanagementpassword">
+        <div class="change-password-form-group">
+          <label for="oldPassword">Old Password:</label>
+          <input type="password" name="oldPassword" id="password4" class="password-input" required>
+          <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+        </div>
+        <div class="change-password-form-group">
+          <label for="newPassword">New Password:</label>
+          <input type="password" name="newPassword" id="password5" class="password-input" required>
+          <i class="fas fa-eye password-toggle" data-target="password4" style="cursor: pointer;"></i>
+        </div>
+        <div class="change-password-button-container">
+          <button type="submit">Change Password</button>
+        </div>
+      </form>
+
+    </div>
+
+    <div id="registermanagementuser-section" class="content-section">
+      <div class="heading">
+        <h3>REGISTER MANAGEMENT ADMIN</h3>
+      </div>
+      <form method="post" action="/registermanagementuser">
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="username" placeholder="Enter full name" required />
+
+        <label for="rtid">MANAGEMENT USER ID:</label>
+        <input type="number" id="id" name="id" placeholder="Enter USER ID" required />
+
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required />
+
+
+        <label for="password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="password6" class="password-input" name="password" placeholder="Enter password"
+            required />
+          <i class="fas fa-eye password-toggle" data-target="password2" style="cursor: pointer;"></i>
+        </div>
+
+
+        <button type="submit" class="submit-button">Register</button>
+      </form>
+    </div>
+
+
+    <div id="managementadminusers-section" class="content-section">
+
+      <div class="heading">
+        <h3>MANAGEMENT ADMIN USERS</h3>
+      </div>
+      <input type="text" id="rt-user-search" placeholder="Search Managementadmin users..."
+        onkeyup="filterTable('managementadmin-users-tbody', this)"
+        style="margin-bottom: 10px; width: 100%; padding: 8px;" />
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="managementadmin-users-tbody">
+          <% if (admin && admin.length> 0) { %>
+            <% admin.forEach(admins=> { %>
+              <tr>
+                <td>
+                  <%= admins.id %>
+                </td>
+                <td>
+                  <%= admins.username %>
+                </td>
+                <td>
+                  <%= admins.email %>
+                </td>
+                <td>
+                  <form style="padding: 0; margin: 0;" method="post"
+                    action="/deletemanagementadminusers/<%= admins.id %>">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div id="managementadminlogins-section" class="content-section">
+
+      <div class="heading">
+        <h3>MANAGEMENT ADMIN LOGINS</h3>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>EMAIL</th>
+            <th>LOGIN TIME</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (admin_logins && admin_logins.length> 0) { %>
+            <% admin_logins.forEach(admin_login=> { %>
+              <tr>
+                <td>
+                  <%= admin_login.id %>
+                </td>
+                <td>
+                  <%= admin_login.email %>
+                </td>
+                <td>
+                  <%= admin_login.login_time %>
+                </td>
+
+              </tr>
+              <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="4">No Records found.</td>
+                  </tr>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="messmanagement-section" class="content-section">
+      <div class="heading">
+        <h3>MESS MANAGEMENT & DEMAND PREDICTION</h3>
+      </div>
+
+      <div class="prediction-container"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div class="stat-card"
+          style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+          <p style="color: #6b7280; font-size: 0.875rem; font-weight: 600; margin-bottom: 8px;">TOTAL STUDENTS</p>
+          <h4 id="mess-total-students" style="font-size: 2rem; font-weight: 800; color: #111827;">--</h4>
+        </div>
+        <div class="stat-card"
+          style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+          <p style="color: #6b7280; font-size: 0.875rem; font-weight: 600; margin-bottom: 8px;">AWAY ON GATEPASS</p>
+          <h4 id="mess-away-students" style="font-size: 2rem; font-weight: 800; color: #ef4444;">--</h4>
+        </div>
+        <div class="stat-card"
+          style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+          <p style="color: #6b7280; font-size: 0.875rem; font-weight: 600; margin-bottom: 8px;">ON MEDICAL LEAVE</p>
+          <h4 id="mess-medical-leaves" style="font-size: 2rem; font-weight: 800; color: #f59e0b;">--</h4>
+        </div>
+        <div class="stat-card"
+          style="background: #137fec; color: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgb(19 127 236 / 0.3);">
+          <p style="color: rgba(255,255,255,0.8); font-size: 0.875rem; font-weight: 600; margin-bottom: 8px;">PREDICTED
+            ATTENDANCE</p>
+          <h4 id="mess-predicted-attendance" style="font-size: 2.5rem; font-weight: 900;">--</h4>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
   </div>
   <script src="/script/managementadminpanelscript.js"></script>
 </body>
+
 </html>

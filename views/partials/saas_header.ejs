@@ -85,11 +85,19 @@
                         href="/mypasses">My Passes</a>
                 </nav>
                 <div class="flex gap-3">
-                    <% if (typeof user !=='undefined' && user) { %>
-                        <div class="flex items-center gap-2">
-                            <div
-                                class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                                <%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %>
+                    <% if (user) { %>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <div
+                                    class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                                    <% let displayName=user.name || user.username || user.email || 'U' ; let
+                                        initial=displayName.charAt(0).toUpperCase(); %>
+                                        <%= initial %>
+                                </div>
+                                <span class="hidden lg:inline text-sm font-medium text-current">
+                                    <%= user.name || user.username || (user.email ? user.email.split('@')[0] : 'User' )
+                                        %>
+                                </span>
                             </div>
                             <a href="/logout"
                                 class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 decoration-none">
@@ -97,6 +105,10 @@
                             </a>
                         </div>
                         <% } else { %>
+                            <button
+                                class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold transition-all hover:bg-primary/90">
+                                Book a Demo
+                            </button>
                             <a href="/login"
                                 class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 decoration-none">
                                 Login

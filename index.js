@@ -31,6 +31,7 @@ import watchmanRoute from "./Routes/watchmanRoute.js";
 import watchmanloginRoute from "./Routes/watchmanloginRoute.js";
 import smartMaintenanceRoute from "./Routes/smartMaintenanceRoute.js";
 import chatbotRoute from "./Routes/chatbotRoute.js";
+import messRoute from "./Routes/messRoute.js";
 
 const app = express();
 const port = 8000;
@@ -50,6 +51,17 @@ app.use("/uploads", express.static("uploads")); // Serve uploaded PDFs
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); // Enable JSON body parsing for API routes
 
+// Global middleware to set user for all templates
+app.use((req, res, next) => {
+  res.locals.user = req.session.user ||
+    req.session.managementadmin ||
+    req.session.maintenanceadmin ||
+    req.session.rtadmin ||
+    req.session.watchman ||
+    null;
+  next();
+});
+
 app.use("/", loginRoute);
 app.use("/", userforgotpasswordRoute);
 app.use("/", managementadminloginRoute);
@@ -64,6 +76,10 @@ app.use("/", managementadminforgotpasswordRoute);
 app.use("/", maintenanceforgotpasswordRoute);
 app.use("/", rtforgotpasswordRoute);
 
+
+app.use("/", chatbotRoute); // Chatbot API
+app.use("/", messRoute); // Mess Prediction API
+
 app.use("/", checkAuthenticated, homeRoute);
 app.use("/", checkAuthenticated, gatepassRoute);
 app.use("/", checkAuthenticated, maintenanceRoute);
@@ -73,10 +89,10 @@ app.use("/", checkAuthenticated, carpentryworkRoute);
 app.use("/", checkAuthenticated, medicalRoute);
 app.use("/", checkAuthenticated, aboutusRoute);
 app.use("/", checkAuthenticated, smartMaintenanceRoute); // AI-powered maintenance
-app.use("/", chatbotRoute); // Chatbot API
+
 
 app.use((req, res, next) => {
-  res.render("404", { user: req.session.user });
+  res.render("404");
 });
 
 app.listen(port, () => {
