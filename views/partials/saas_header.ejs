@@ -71,6 +71,7 @@
 
                 </a>
             </div>
+            <!-- Desktop Nav -->
             <div class="hidden md:flex flex-1 justify-end gap-8 items-center">
                 <nav class="flex items-center gap-8">
                     <a class="text-sm font-medium hover:text-primary transition-colors text-current decoration-none"
@@ -116,6 +117,125 @@
                             <% } %>
                 </div>
             </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="saas-mobile-toggle" onclick="toggleSaasMenu()"
+                class="md:hidden flex flex-col justify-center items-center gap-[5px] p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#2a343f] transition-colors"
+                aria-label="Toggle menu">
+                <span
+                    class="saas-hamburger-line block w-5 h-[2px] bg-[#111418] dark:bg-white rounded transition-all duration-300"></span>
+                <span
+                    class="saas-hamburger-line block w-5 h-[2px] bg-[#111418] dark:bg-white rounded transition-all duration-300"></span>
+                <span
+                    class="saas-hamburger-line block w-5 h-[2px] bg-[#111418] dark:bg-white rounded transition-all duration-300"></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="saas-mobile-nav" class="fixed inset-0 z-40 pointer-events-none md:hidden" style="visibility: hidden;">
+        <!-- Backdrop -->
+        <div id="saas-mobile-backdrop" class="absolute inset-0 bg-black/0 transition-all duration-300"
+            onclick="toggleSaasMenu()"></div>
+        <!-- Drawer Panel -->
+        <div id="saas-mobile-drawer"
+            class="absolute top-0 right-0 h-full w-[280px] max-w-[85vw] bg-white dark:bg-background-dark shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col pointer-events-auto">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between p-5 border-b border-[#f0f2f4] dark:border-[#2a343f]">
+                <span class="text-base font-bold text-[#111418] dark:text-white">Menu</span>
+                <button onclick="toggleSaasMenu()"
+                    class="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-[#2a343f] transition-colors"
+                    aria-label="Close menu">
+                    <svg class="w-5 h-5 text-[#111418] dark:text-white" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Drawer Links -->
+            <nav class="flex-1 overflow-y-auto py-4 px-3">
+                <a href="/"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#111418] dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#1c2631] transition-colors decoration-none">
+                    <span class="material-symbols-outlined text-lg text-primary">home</span> Home
+                </a>
+                <a href="/gatepass"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#111418] dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#1c2631] transition-colors decoration-none">
+                    <span class="material-symbols-outlined text-lg text-primary">badge</span> Gatepass
+                </a>
+                <a href="/maintenance"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#111418] dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#1c2631] transition-colors decoration-none">
+                    <span class="material-symbols-outlined text-lg text-primary">build</span> Maintenance
+                </a>
+                <a href="/medical"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#111418] dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#1c2631] transition-colors decoration-none">
+                    <span class="material-symbols-outlined text-lg text-primary">medical_services</span> Medical
+                </a>
+                <a href="/mypasses"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#111418] dark:text-white text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#1c2631] transition-colors decoration-none">
+                    <span class="material-symbols-outlined text-lg text-primary">history</span> My Passes
+                </a>
+            </nav>
+            <!-- Drawer Footer (Auth) -->
+            <div class="p-4 border-t border-[#f0f2f4] dark:border-[#2a343f]">
+                <% if (user) { %>
+                    <div class="flex items-center gap-3 mb-4 px-2">
+                        <div
+                            class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg">
+                            <% let mobileDisplayName=user.name || user.username || user.email || 'U' ; let
+                                mobileInitial=mobileDisplayName.charAt(0).toUpperCase(); %>
+                                <%= mobileInitial %>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-bold text-[#111418] dark:text-white">
+                                <%= user.name || user.username || 'User' %>
+                            </span>
+                            <span class="text-xs text-[#617589]">Student</span>
+                        </div>
+                    </div>
+                    <a href="/logout"
+                        class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#f0f2f4] dark:bg-[#2a343f] text-[#111418] dark:text-white text-sm font-bold hover:opacity-80 transition-all decoration-none">
+                        <span class="material-symbols-outlined text-lg">logout</span> Logout
+                    </a>
+                    <% } else { %>
+                        <a href="/login"
+                            class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all decoration-none">
+                            <span class="material-symbols-outlined text-lg">login</span> Login
+                        </a>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSaasMenu() {
+            const nav = document.getElementById('saas-mobile-nav');
+            const drawer = document.getElementById('saas-mobile-drawer');
+            const backdrop = document.getElementById('saas-mobile-backdrop');
+            const toggle = document.getElementById('saas-mobile-toggle');
+            const isOpen = drawer.classList.contains('translate-x-0');
+
+            if (isOpen) {
+                drawer.classList.remove('translate-x-0');
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.remove('bg-black/50');
+                backdrop.classList.add('bg-black/0');
+                toggle.classList.remove('saas-menu-open');
+                document.body.style.overflow = '';
+                setTimeout(() => { nav.style.visibility = 'hidden'; nav.classList.add('pointer-events-none'); }, 300);
+            } else {
+                nav.style.visibility = 'visible';
+                nav.classList.remove('pointer-events-none');
+                requestAnimationFrame(() => {
+                    drawer.classList.remove('translate-x-full');
+                    drawer.classList.add('translate-x-0');
+                    backdrop.classList.remove('bg-black/0');
+                    backdrop.classList.add('bg-black/50');
+                    toggle.classList.add('saas-menu-open');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+        }
+    </script>
+
     <main class="w-full min-h-[80vh]">

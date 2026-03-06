@@ -913,6 +913,12 @@ textarea {
     font-size: 0.95rem;
 }
 
+#medicalForm input,
+#medicalForm select,
+#medicalForm textarea {
+    margin-bottom: 0;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -1258,6 +1264,221 @@ button[type="submit"]:hover {
 
     .quick-service-card p {
         display: none;
+    }
+}
+
+/* ============================================
+   MOBILE NAV ACTIVE STATE (Legacy header)
+   ============================================ */
+
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+    .mobile-nav {
+        display: block;
+    }
+}
+
+.mobile-nav.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-nav-content {
+    padding: 5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+    background: var(--bg-gray);
+    color: var(--text-primary);
+}
+
+.mobile-nav-link i {
+    width: 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Hamburger animation */
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, -4px);
+}
+
+.hamburger-line {
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   ABOUT US PAGE RESPONSIVE
+   ============================================ */
+
+.abtcont {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    min-height: calc(100vh - 200px);
+}
+
+.abtcont .content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.abtcont .content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.abtcont .content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .abtcont {
+        padding: 2rem 1rem;
+    }
+
+    .abtcont .content h2 {
+        font-size: 1.5rem;
+    }
+
+    .abtcont .content p {
+        font-size: 0.9rem;
+    }
+}
+
+/* ============================================
+   SAAS HERO RESPONSIVE
+   ============================================ */
+
+@media (max-width: 480px) {
+    .saas-title {
+        font-size: 2rem;
+    }
+
+    .saas-subtitle {
+        font-size: 1rem;
+    }
+
+    .saas-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-saas-primary,
+    .btn-saas-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pill-badge {
+        font-size: 0.7rem;
+    }
+
+    .dashboard-card {
+        transform: none;
+    }
+
+    .dashboard-card:hover {
+        transform: none;
+    }
+
+    .floating-stat {
+        display: none;
+    }
+
+    .trust-badge {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .saas-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============================================
+   GENERAL MOBILE TOUCH TARGETS
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Ensure touch targets are large enough (48px min) */
+    .cta-button,
+    .btn-saas-primary,
+    .btn-saas-secondary,
+    .login-btn,
+    button[type="submit"],
+    .housekeeping-submit-btn,
+    .gatepass-submit-btn {
+        min-height: 48px;
+    }
+
+    /* Better container padding on mobile */
+    .container-custom {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Footer responsive */
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .footer-bottom-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
     }
 }
 

@@ -94,6 +94,39 @@ router.post("/gatepass", async (req, res) => {
   // Fetch the rt_id based on rrn from the users table
   let rt_id;
   try {
+    // Server-side date validation: prevent past dates
+    const now = new Date();
+    const timeOutDate = new Date(time_out);
+    const timeInDate = new Date(time_in);
+
+    if (timeOutDate < now) {
+      const result = await pool.query("SELECT name FROM rt");
+      return res.render("gatepass", {
+        rtNames: result.rows,
+        myPasses: [],
+        message: "Date and Time Out cannot be in the past.",
+        user: req.session.user,
+      });
+    }
+    if (timeInDate < now) {
+      const result = await pool.query("SELECT name FROM rt");
+      return res.render("gatepass", {
+        rtNames: result.rows,
+        myPasses: [],
+        message: "Date and Time In cannot be in the past.",
+        user: req.session.user,
+      });
+    }
+    if (timeInDate <= timeOutDate) {
+      const result = await pool.query("SELECT name FROM rt");
+      return res.render("gatepass", {
+        rtNames: result.rows,
+        myPasses: [],
+        message: "Date and Time In must be after Date and Time Out.",
+        user: req.session.user,
+      });
+    }
+
     const rtResult = await pool.query("SELECT rtid FROM users WHERE rrn = $1", [
       rrn,
     ]);
